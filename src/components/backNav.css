@@ -1,0 +1,10 @@
+.backNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 100%;
+    border-bottom: 1px solid var(--liteColor);
+    background-color: var(--background-end-rgb);
+
+}

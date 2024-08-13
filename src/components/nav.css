@@ -1,0 +1,49 @@
+nav{
+    position: fixed;
+    bottom: 0dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 63px;
+    width: 100%;
+    border-top: 1px solid var(--liteColor);
+    background-color: var(--background-end-rgb);
+}
+
+nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+}
+
+nav a svg{
+    height: 32px;
+    width: 32px;
+    transition-property: height,width;
+    transition-timing-function: ease-in-out;
+    transition-duration: 100ms;
+}
+
+nav a span {
+    font-size: xx-small;
+    font-weight: 700;
+    transition-property: font-size;
+    transition-timing-function: ease-in-out;
+    transition-duration: 150ms;
+}
+
+nav a.active svg{
+    height: 36px;
+    width: 36px;
+}
+
+nav a.active{
+    color: var(--primaryColor);
+}
+
+nav a.active span{
+    font-size: 0;
+}

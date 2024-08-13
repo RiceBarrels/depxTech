@@ -1,0 +1,116 @@
+.userAuthPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.cl-card,
+.cl-footer,
+.cl-dividerText,
+.cl-formFieldLabel,
+.cl-formFieldAction,
+.cl-footerAction *,
+.cl-selectOptionsContainer{
+    background: var(--background-start-rgb);
+    color: var(--foreground-rgb)
+}
+
+.cl-selectOption {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.cl-dividerLine {
+    background: var(--foreground-rgb)
+}
+
+.cl-button{
+    color: var(--foreground-rgb);
+    background-color: var(--primaryColor);
+    border-radius: 12px;
+    border: 2px solid var(--primaryColor);
+    text-align: center;
+    font-weight: 900;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+.cl-button:hover{
+    background-color: var(--primaryColor)
+}
+
+.cl-internal-ttumny[data-variant="solid"]::after{
+    all: unset
+}
+
+.cl-internal-ttumny[data-variant="solid"][data-color="primary"]{
+    box-shadow: unset;
+}
+
+.cl-providerIcon__apple{
+    filter: invert(1);
+}
+
+.cl-header{
+    display: none;
+}
+
+.cl-internal-1hxxuyc[data-variant="default"] {
+    border-width: 0px;
+    box-shadow: var(--foreground-rgb) 0px 0px 0px 1px, var(--foreground-rgb) 0px 0px 1px 0px;
+}
+
+.cl-internal-1hxxuyc[data-variant="default"]:focus,.cl-internal-1hxxuyc[data-variant="default"]:hover {
+    border-width: 0px;
+    box-shadow: var(--primaryColor) 0px 0px 0px 1px, var(--primaryColor) 0px 0px 1px 0px;
+    color: var(--foreground-rgb);
+}
+
+.cl-formResendCodeLink,
+.cl-formResendCodeLink:hover,
+.cl-footerActionLink:hover,
+.cl-formFieldInputShowPasswordButton,
+.cl-formFieldInputShowPasswordButton:hover,
+.cl-selectButton,
+.cl-selectButton:hover,
+.cl-selectButton *,
+.cl-otpCodeFieldInput {
+    background-color: transparent;
+    border: 0;
+    color: var(--foreground-rgb)
+}
+
+.cl-formFieldInput[data-variant="default"],
+.cl-formFieldInput[data-variant="default"]:hover,
+.cl-formFieldInput[data-variant="default"]:focus-within,
+.cl-formFieldInput[data-variant="default"]:focus,
+.cl-formFieldInput[data-variant="default"][data-feedback="error"] {
+    box-shadow: none;
+    border: 0px solid var(--foreground-rgb);
+    border-bottom: 1px solid var(--foreground-rgb);
+    background-color: var(--background-start-rgb);
+    color: var(--foreground-rgb);
+    font-size: medium;
+    height: 243px;
+    border-radius: 0px;
+    font-weight: 500;
+    padding: 16px 0 16px 0;
+    box-sizing: border-box;
+}
+
+.cl-phoneInputBox,
+.cl-phoneInputBox:hover,
+.cl-phoneInputBox:focus {
+    border: 0px solid var(--foreground-rgb);
+    border-bottom: 1px solid var(--foreground-rgb);
+    box-shadow: none;
+    border-radius: 0;
+    color: var(--foreground-rgb);
+}
+
+.cl-formFieldInput__phoneNumber[type="tel"]:focus,
+.cl-formFieldInput__phoneNumber[type="tel"] {
+    color: var(--foreground-rgb);
+    padding-bottom: 0px;
+}

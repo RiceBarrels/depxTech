@@ -3,29 +3,155 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: rgb(0, 0, 0);
+  --background-start-rgb: rgb(242, 242, 247);
+  --background-end-rgb: rgb(255, 255, 255);
+  --primaryColor: #0066ff;
+  --liteColor: rgb(214, 223, 232);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: rgb(255, 255, 255);
+    --background-start-rgb: rgb(7, 7, 10);
+    --background-end-rgb: rgb(15, 21, 24);
+    --primaryColor: #0066ff;
+    --liteColor: rgb(30, 30, 33);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+body,html {
+  color: var(--foreground-rgb);
+  height: calc(100%);
+  width: calc(100%);
+  background: var(--background-end-rgb);
+  overflow: hidden;
 }
 
+.content {
+  height: calc(100dvh - 64px);
+  overflow-y: auto;
+  margin-bottom: 64px;
+  background: var(--background-start-rgb);
+}
+
+  /* linear-gradient(
+      to bottom,
+      transparent,
+      rgb(11, 32, 42)
+    ) */
+    
+
+header{
+  margin: 16px;
+  background:  linear-gradient(
+    to top,
+    transparent,
+    rgb(11, 32, 42)
+  ),
+  rgb(18, 18, 26)
+}
+
+content{
+  display: block;
+  padding: 32px 16px 16px 16px;
+  border-radius: 32px 32px 0 0;
+}
+
+h1 {
+  font-size: xx-large;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: x-large;
+  font-weight: 900;
+}
+
+h3 {
+  font-size: large;
+  font-weight: 900;
+}
+
+.card{
+  display: inline-flex;
+  height: 250px;
+  width: 200px;
+  border-radius: 16px;
+  margin: 8px;
+  background-color: var(--background-end-rgb);
+  flex-direction: column;
+  align-items: center;
+}
+
+card content {
+  display: inline-flex;
+  width: 100%;
+}
+
+card img {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 12px;
+  margin: 16px;
+}
+
+.inline{
+  display: inline;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontalScroll{
+  overflow-x: scroll;
+}
+
+space{
+  flex:1;
+}
+
+.background-card{
+  background-color: var(--background-end-rgb);
+}
+
+.background-default {
+  background-color: var(--background-start-rgb);
+}
+
+.text-color{
+  color: var(--foreground-rgb)
+}
+
+.card-feedback:active {
+  background-color: var(--background-start-rgb);
+  transform: scaleY(101%);
+  box-shadow: 0 0 8px #00000058;
+}
+
+.button,.button-secondary{
+  background-color: var(--primaryColor);
+  border-radius: 12px;
+  border: 2px solid var(--primaryColor);
+  text-align: center;
+  font-weight: 900;
+  color: var(--background-end-rgb);
+}
+
+.button-secondary{
+  background-color: #00000000;
+  color: var(--primaryColor);
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
