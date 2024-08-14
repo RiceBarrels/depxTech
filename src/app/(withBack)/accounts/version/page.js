@@ -2,13 +2,11 @@
 import { motion } from "framer-motion";
 import { useRouter } from 'next/navigation'
 
-export default function version() {
+export default function Version() { // Updated function name
   const router = useRouter();
-
 
   return (
     <>
-      
       <div className="flex justify-center items-center h-full">
         <motion.div
           className="background-card rounded-xl text-center p-4"

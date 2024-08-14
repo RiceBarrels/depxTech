@@ -2,6 +2,7 @@
 "use server"
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from 'next/image'
 async function getData(params) {
     const url = `https://api.deephuo.com/read?filter_id=${params.product}&limit=1`;
     const res = await fetch(url);
@@ -30,12 +31,12 @@ export default async function ProductDetails({ params }) {
 
                             return (
                                 // make the div bellow golden ratio
-                                <div href={"item/" + item.id} className="flex flex-col md:flex-row bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(100%-0.5rem)] min-h-72 md:w-[100%] space-y-2 justify-center items-center">
+                                <div key={item.id} href={"item/" + item.id} className="flex flex-col md:flex-row bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(100%-0.5rem)] min-h-72 md:w-[100%] space-y-2 justify-center items-center">
                                     {images.length === 0 ? (
                                         <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                     ) : (
                                         <div className="relative w-[100%] pb-[100%]">
-                                            <img src={images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                            <Image src={images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
                                         </div>
                                     )}
                                     <div className="space-y-1 p-1 w-full">

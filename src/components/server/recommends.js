@@ -91,7 +91,7 @@ export default async function Recommends() {  // Default value for items
 
                         return (
                             // make the div bellow golden ratio
-                            <Drawer className="">
+                            <Drawer key={item.id} className="">
                                 <DrawerTrigger asChild>
                                     <div href={"products/" + item.id} className="flex flex-col bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(50%-0.5rem)] min-h-72 md:w-[25%] space-y-2 justify-center items-center">
                                         {images.length === 0 ? (
@@ -127,7 +127,7 @@ export default async function Recommends() {  // Default value for items
                                         ) : (
                                             <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
                                                 {images.map((image) => {
-                                                    return <CarouselSlide><img src={image} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
+                                                    return <CarouselSlide key={image}><img src={image} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
                                                 })}
                                             </Carousel>
                                         )}
