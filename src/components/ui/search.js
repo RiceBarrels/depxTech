@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import zIndex from "@mui/material/styles/zIndex";
 
 export default function Search() {
   const [isSearchActive, setIsSearchActive] = useState(false);

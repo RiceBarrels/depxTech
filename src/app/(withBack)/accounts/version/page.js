@@ -1,7 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaDivide } from "react-icons/fa";
-import { Box } from "@mui/material";
 import { useRouter } from 'next/navigation'
 
 export default function version() {
