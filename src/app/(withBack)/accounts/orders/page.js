@@ -26,7 +26,7 @@ export default function order() {
     >
       <div className="flex px-10 w-full">
         <FaBox size={"10vh"} color="#777"/>
-        <p className="text-lg ml-3 text-center flex-1">You don't have any order.</p>
+        <p className="text-lg ml-3 text-center flex-1">You don&apos;t have any order.</p>
       </div>
     </motion.div>
   );
@@ -77,7 +77,7 @@ export default function order() {
     >
       <div className="flex px-10 w-full">
         <FaCalendarCheck size={"10vh"} color="#777"/>
-        <p className="text-lg ml-3 text-center flex-1">You don't have any order arived.</p>
+        <p className="text-lg ml-3 text-center flex-1">You don&apos;t have any order arived.</p>
       </div>
     </motion.div>
   );

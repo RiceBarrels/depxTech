@@ -42,7 +42,7 @@ export default function LampDemo() {
         }}
         className="text-center text-lg bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text text-transparent"
       >
-        "Choosen by you, created by us."
+        &quot;Choosen by you, created by us.&quot;
       </motion.p>
       <br/>
       <motion.p

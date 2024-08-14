@@ -41,7 +41,7 @@ export default async function Page() {
   } else if (hours < 20){
     great = <>Good Evening, {username}.</>;
   } else {
-    great = <>It's time to go to sleep {username}!</>;
+    great = <>It&apos;s time to go to sleep {username}!</>;
   }
   return (
     <>
