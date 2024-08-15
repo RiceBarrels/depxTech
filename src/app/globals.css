@@ -3,25 +3,75 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: rgb(0, 0, 0);
-  --background-start-rgb: rgb(242, 242, 247);
-  --background-end-rgb: rgb(255, 255, 255);
-  --primaryColor: #0066ff;
-  --liteColor: rgb(214, 223, 232);
+  --background: 0, 0%, 100%;
+  --foreground: 200, 23%, 8%;
+  --card: 240, 24%, 96%;
+  --card-foreground: 200, 23%, 8%;
+  --popover: 240, 24%, 96%;
+  --popover-foreground: 200, 23%, 8%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 200, 23%, 8%;
+  --radius: 0.5rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  
+  --foreground-rgb: hsl(0, 0%, 0%);
+  --background-start-rgb: hsl(240, 24%, 96%);
+  --background-end-rgb: hsl(0, 0%, 100%);
+  --primaryColor: hsl(216, 100%, 50%);
+  --liteColor: hsl(210, 28%, 87%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: rgb(255, 255, 255);
-    --background-start-rgb: rgb(7, 7, 10);
-    --background-end-rgb: rgb(15, 21, 24);
-    --primaryColor: #0066ff;
-    --liteColor: rgb(30, 30, 33);
+    --background: 200, 23%, 8%;
+    --foreground: 210 40% 98%;
+    --card: 240, 18%, 3%;
+    --card-foreground: 210 40% 98%;
+    --popover: 200, 23%, 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    --foreground-rgb: hsl(0, 0%, 100%);
+    --background-start-rgb: hsl(240, 18%, 3%);
+    --background-end-rgb: hsl(200, 23%, 8%);
+    --primaryColor: hsl(216, 100%, 50%);
+    --liteColor: hsl(240, 5%, 12%);
   }
 }
 
 body,html {
-  color: var(--foreground-rgb);
   height: calc(100%);
   width: calc(100%);
   background: var(--background-end-rgb);
@@ -29,7 +79,7 @@ body,html {
 }
 
 .content {
-  height: calc(100dvh - 64px);
+  height: calc(100dvh - 64px - 3rem);
   overflow-y: auto;
   margin-bottom: 64px;
   background: var(--background-start-rgb);
@@ -152,8 +202,25 @@ space{
 textarea:focus, input:focus{
   outline: none;
 }
+
+a:hover {
+  opacity: 0.85;
+}
+a:active {
+  opacity: 0.75;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

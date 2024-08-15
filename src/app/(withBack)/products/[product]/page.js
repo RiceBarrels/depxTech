@@ -36,7 +36,7 @@ export default async function ProductDetails({ params }) {
                                         <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                     ) : (
                                         <div className="relative w-[100%] pb-[100%]">
-                                            <Image src={images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                            <Image src={"https://src.deephuo.com/"+images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
                                         </div>
                                     )}
                                     <div className="space-y-1 p-1 w-full">

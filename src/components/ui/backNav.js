@@ -18,24 +18,26 @@ export default function BackNav(){
     }, [router.pathname]);
 
     return (
-        <div className="backNav">
-            {/* back button */}
-            <button className="flex justify-center items-center pl-2" onClick={() => router.back()}>
-                <IoIosArrowBack size={24} /> Back
-            </button>
-            <motion.div className="flex justify-center items-center flex-1"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20
-                }}
-            >
-                {/* display the page name using navigation */}
-                {pageName}
-            </motion.div>
-            <div className="w-[70px]" />
+        <div className="background-default">
+            <div className="backNav pb-3 rounded-b-xl">
+                {/* back button */}
+                <button className="flex justify-center items-center pl-2" onClick={() => router.back()}>
+                    <IoIosArrowBack size={24} /> Back
+                </button>
+                <motion.div className="flex justify-center items-center flex-1"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20
+                    }}
+                >
+                    {/* display the page name using navigation */}
+                    {pageName}
+                </motion.div>
+                <div className="w-[70px]" />
+            </div>
         </div>
     );
 }

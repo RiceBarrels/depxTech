@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 export default function Search() {
@@ -12,13 +11,12 @@ export default function Search() {
   };
 
   return (
-    <div>
-        <div className="h-10"/>
-        <div className="background-card rounded-b-xl p-2 text-center fixed top-0 w-full z-[102]">
+    <div className="sticky top-0 z-[102]">
+        <div className="background-card rounded-b-3xl p-2 pt-0 text-center w-full relative z-[102] border-[0.5px] border-[#88888850] border-t-0">
             <motion.input 
                 placeholder="Search..." 
                 animate={{ border: isSearchActive ? "1px solid var(--foreground-rgb)" : "1px solid #787878" }}
-                transition={{ duration: 0.1, ease:"easeOut" }}
+                transition={{ duration: 0.2, ease:"easeOut" }}
                 onFocus={searchFocus} 
                 onBlur={searchFocus} 
                 style={{zIndex:102, width:"100%", background: "#00000000", borderRadius: "100px", border: "1px solid #787878", padding: "4px 12px 4px 12px"}} 

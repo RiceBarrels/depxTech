@@ -25,19 +25,12 @@ export default function BottomNav() {
   }
 
   return (
-    <nav>
+    <nav className="">
       <space/>
 
       <Link href={"/"} className={pathname == "/" ? "active" : ""} onClick={playPopSound}>
         {pathname == "/" || pathname.includes("/create") ? <GoHomeFill/> : <GoHome/>}
         <span>Home</span>
-      </Link>
-
-      <space/>
-
-      <Link href={"/cart"} className={pathname.includes("/cart") ? "active" : ""} onClick={playPopSound}>
-        {pathname.includes("/cart") ? <PiShoppingCartSimpleFill/> : <PiShoppingCartSimple/>}
-        <span>Cart</span>
       </Link>
 
       <space/>

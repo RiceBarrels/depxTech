@@ -1,4 +1,6 @@
 import BottomNav from "@/components/ui/bottomNav";
+import { MdOutlineShoppingBag } from "react-icons/md";
+import Link from "next/link";
 
 export const metadata = {
   title: "DeepHuo Custom PCs",
@@ -8,7 +10,11 @@ export const metadata = {
 export default function withNavBar({children}){
     return (
         <>
-            <div className="h-3 w-full background-card rounded-b-xl fixed top-0" />
+            <div className="px-4 h-12 flex items-center relative z-[102]">
+                <h3>DepxTech</h3>
+                <div className="flex-1"/>
+                <Link href="/cart"><MdOutlineShoppingBag size={24} /></Link>
+            </div>
             <div className="content">
                 {children}
             </div>
