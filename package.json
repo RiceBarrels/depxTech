@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "depxtech",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,11 +15,15 @@
     "@mantine/hooks": "^7.12.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-hover-card": "^1.1.1",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
-    "@supabase/supabase-js": "^2.45.1",
+    "@supabase/supabase-js": "^2.45.2",
     "@tabler/icons-react": "^3.11.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "embla-carousel-react": "^7.1.0",
     "framer-motion": "^11.3.27",
     "lucide-react": "^0.418.0",

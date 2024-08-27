@@ -4,19 +4,6 @@ import { FlipWords } from "@/components/ui/flip-words";
 import Recommends from "@/components/server/recommends";
 import Search from "@/components/ui/search";
 
-// async function getData() {
-//   const res = await fetch('https://cart.deephuo.com/products.json?limit=250')
-//   // The return value is *not* serialized
-//   // You can return Date, Map, Set, etc.
- 
-//   if (!res.ok) {
-//     // This will activate the closest `error.js` Error Boundary
-//     throw new Error('Failed to fetch data')
-//   }
- 
-//   return res.json();
-// }
-
 export default async function Page() {
   const { userId } = auth();
   const user = await currentUser();
@@ -51,7 +38,7 @@ export default async function Page() {
           <div className="text-[1.2em] md:text-3xl lg:text-6xl font-bold inter-var text-left w-full">
             Customize a
             <FlipWords className="text-color" words={words} /> <br />
-            PCs with DeepHuo
+            PCs with DepxTech
           </div>
         </div>
       </div>

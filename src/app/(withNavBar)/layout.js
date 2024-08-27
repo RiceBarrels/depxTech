@@ -15,7 +15,7 @@ export default function withNavBar({children}){
                 <div className="flex-1"/>
                 <Link href="/cart"><MdOutlineShoppingBag size={24} /></Link>
             </div>
-            <div className="content">
+            <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)]">
                 {children}
             </div>
             <BottomNav/>

@@ -10,7 +10,7 @@ export default function withNavBar({children}){
     return (
         <>
             <BackNav/>
-            <div className="content">
+            <div className="content h-[calc(100dvh-45px)]">
                 {children}
             </div>
         </>

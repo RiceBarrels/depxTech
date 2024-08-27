@@ -19,25 +19,14 @@ import { GrClose } from "react-icons/gr";
 import Link from "next/link";
 import Recommends from "@/components/server/recommends";
 
-export default async function Cart() {
-  let cartItems = [
-    {
-      "isItemCombo": false,
-      "quantity": 2,
-      "id": 4
-    },
-    {
-      "isItemCombo": false,
-      "quantity": 1,
-      "id": 5
-    }
-  ];
-
+export default async function CartItems(data) {
   let totalPrice = 0;
+
+const cartItems = JSON.parse(data);
 
   const itemsData = await Promise.all(
     cartItems.map(async (cartItem) => {
-      const item = cartItem.id;
+      const item = cartItem.itemId;
       const quantity = cartItem.quantity;
       const itemData = await getData(`https://api.depxtech.com/read?filter_id=${item}`);
       totalPrice += parseFloat(itemData[0].price) * quantity;

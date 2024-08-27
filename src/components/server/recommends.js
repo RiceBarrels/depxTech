@@ -17,9 +17,10 @@ import { Maximize } from "lucide-react";
 import '@mantine/carousel/styles.css';
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import Image from "next/image";
+import AddItem from "../client/addItem";
 
 async function getData() {
-    const res = await fetch('https://api.deephuo.com/search?limit=50&filter_sellBySelf=1');
+    const res = await fetch('https://api.DepxTech.com/search?limit=50&filter_sellBySelf=1');
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
    
@@ -99,7 +100,7 @@ export default async function Recommends() {  // Default value for items
                                             <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                         ) : (
                                             <div className="relative w-[100%] pb-[100%]">
-                                                <Image src={"https://src.deephuo.com/"+images[0]} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                                <Image src={"https://src.DepxTech.com/"+images[0]} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
                                             </div>
                                         )}
                                         <div className="space-y-1 p-1 w-full">
@@ -128,7 +129,7 @@ export default async function Recommends() {  // Default value for items
                                         ) : (
                                             <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
                                                 {images.map((image) => {
-                                                    return <CarouselSlide key={image}><Image src={"https://src.deephuo.com/"+image} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
+                                                    return <CarouselSlide key={image}><Image src={"https://src.DepxTech.com/"+image} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
                                                 })}
                                             </Carousel>
                                         )}
@@ -147,7 +148,7 @@ export default async function Recommends() {  // Default value for items
                                     </div>
 
                                     <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850]">
-                                        <button className="flex-1 button-secondary py-2">Add to Cart</button>
+                                        <AddItem item={item} images={images}/>
                                         <button className="flex-1 button py-2">Buy Now</button>
                                     </DrawerFooter>
                                 </DrawerContent>

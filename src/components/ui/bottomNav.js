@@ -25,7 +25,7 @@ export default function BottomNav() {
   }
 
   return (
-    <nav className="">
+    <nav className="p-2 pb-4">
       <space/>
 
       <Link href={"/"} className={pathname == "/" ? "active" : ""} onClick={playPopSound}>

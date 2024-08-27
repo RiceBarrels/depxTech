@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from 'next/image'
 async function getData(params) {
-    const url = `https://api.deephuo.com/read?filter_id=${params.product}&limit=1`;
+    const url = `https://api.DepxTech.com/read?filter_id=${params.product}&limit=1`;
     const res = await fetch(url);
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
@@ -36,7 +36,7 @@ export default async function ProductDetails({ params }) {
                                         <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                     ) : (
                                         <div className="relative w-[100%] pb-[100%]">
-                                            <Image src={"https://src.deephuo.com/"+images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                            <Image src={"https://src.DepxTech.com/"+images[0]} alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
                                         </div>
                                     )}
                                     <div className="space-y-1 p-1 w-full">
