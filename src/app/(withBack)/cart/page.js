@@ -56,20 +56,22 @@ export default async function Home() {
                   <space />
                   <div className='flex justify-end'>
                     <div className="text-2xl text-right font-extrabold">
-                        <span className="text-sm align-top">$ </span>
-                        <span>{item.price.split('.')[0]}</span>
+                        <span className="text-sm">$ </span>
+                        <span className='align-bottom'>{item.price.split('.')[0]}</span>
                         <span className="text-[0px]">.</span>
-                        <span className="text-sm align-top">{item.price.split('.')[1]}</span>
+                        <span className="text-sm">{item.price.split('.')[1]}</span>
                     </div>
 
                     <space/>
 
                     <div>
-                      x{item.quantity}
+                      <span className='align-bottom'>x{item.quantity}</span>
                     </div>
                   </div>
                 </div>
+                <div >
 
+                </div>
               </div>
             </div>
           ))}
