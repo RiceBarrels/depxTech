@@ -64,7 +64,7 @@ export default function GPUSelect({ data }) {
                             damping: 20
                         }}
                     >
-                        <p>What's the Chipset? (ex: AMD)</p>
+                        <p>What&apos;s the Chipset? (ex: AMD)</p>
                         <Select onValueChange={handleGPUChange}>
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select a GPU" />
@@ -88,7 +88,7 @@ export default function GPUSelect({ data }) {
                                 damping: 20
                             }}
                         >
-                            <p>What's the Series?</p>
+                            <p>What&apos;s the Series?</p>
                             <Select onValueChange={handleTypeChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Series"} />
@@ -113,7 +113,7 @@ export default function GPUSelect({ data }) {
                                 damping: 20
                             }}
                         >
-                            <p>What's the specific title of your model?</p>
+                            <p>What&apos;s the specific title of your model?</p>
                             <Select onValueChange={handleModelChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Model"} />
@@ -138,7 +138,7 @@ export default function GPUSelect({ data }) {
                                 damping: 20
                             }}
                         >
-                            <p>What's the brand that made this?</p>
+                            <p>What&apos;s the brand that made this?</p>
                             <Select onValueChange={handleBrandChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Brand"} />
@@ -163,7 +163,7 @@ export default function GPUSelect({ data }) {
                                 damping: 20
                             }}
                         >
-                            <p>What's the Condition?</p>
+                            <p>What&apos;s the Condition?</p>
                             <Select onValueChange={handleConditionChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Condition"} />
