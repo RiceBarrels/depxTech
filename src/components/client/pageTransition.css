@@ -1,0 +1,53 @@
+.transition-1{
+    transform: translateX(-10vw);
+    opacity: 0.5;
+}
+
+.transition-2{
+    transform: translateX(50vw);
+}
+
+.transition-timing{
+    transition: 200ms linear;
+}
+
+.transition-timing-ease-out{
+    transition: 200ms ease-out;
+}
+
+.display-none{
+    display: none;
+}
+
+.transition-loader-1{
+    transform: translateX(-50vw);
+}
+
+#transition-loader{
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    display: block;
+}
+
+.slideIn{
+    transform: translateX(-100vw);
+    transition: 300ms ease-in-out;
+}
+
+.mainSlideOut{
+    transform: translateX(-20vw);
+    transition: 350ms linear;
+}
+
+.backNavSlide{
+    z-index: 9999 !important;
+}
+
+.noTiming{
+    transition: 0ms;
+}

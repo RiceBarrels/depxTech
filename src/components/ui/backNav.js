@@ -19,7 +19,7 @@ export default function BackNav(){
 
     return (
         <div className="background-default">
-            <div className="backNav pb-3 rounded-b-xl">
+            <div className="backNav rounded-b-xl">
                 {/* back button */}
                 <button className="flex justify-center items-center pl-2" onClick={() => router.back()}>
                     <IoIosArrowBack size={24} /> Back

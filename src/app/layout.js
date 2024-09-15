@@ -1,6 +1,7 @@
 import '@mantine/core/styles.css';
 import "./globals.css";
 import "./authStyle.css";
+import "@/components/client/pageTransition.css";
 import { Inter } from "next/font/google";
 import {
   ClerkProvider,
@@ -10,6 +11,7 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import { MantineProvider } from "@mantine/core";
+import { IoIosArrowBack } from 'react-icons/io';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,7 +41,14 @@ export default function RootLayout({ children, nav }) {
           <ClerkProvider>
             {/* <div className="background-default"> */}
               {children}
-            {/* </div> */}
+              <div id="transition-loader" className="bg-[var(--background-start-rgb)]" >
+                <div className="backNav rounded-b-xl">
+                    {/* back button */}
+                    <button className="flex justify-center items-center pl-2"><IoIosArrowBack size={24} /> Back</button>
+                    <div className="flex justify-center items-center flex-1"/>
+                    <button className="flex justify-center items-center pl-2 opacity-0"><IoIosArrowBack size={24} /> Back</button>
+                </div>
+              </div>
           </ClerkProvider>
         </MantineProvider>
       </body>

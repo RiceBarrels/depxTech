@@ -8,11 +8,11 @@ export const metadata = {
 
 export default function withNavBar({children}){
     return (
-        <>
+        <div id="mainContant">
             <BackNav/>
             <div className="content h-[calc(100dvh-45px)]">
                 {children}
             </div>
-        </>
+        </div>
     );
 }

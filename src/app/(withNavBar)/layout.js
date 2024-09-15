@@ -1,6 +1,6 @@
 import BottomNav from "@/components/ui/bottomNav";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import Link from "next/link";
+import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 
 export const metadata = {
   title: "DeepHuo Custom PCs",
@@ -10,13 +10,15 @@ export const metadata = {
 export default function withNavBar({children}){
     return (
         <>
-            <div className="px-4 h-12 flex items-center relative z-[102]">
+            <div className="px-4 h-12 flex items-center relative z-[1002] bg-[var(--background-end-rgb)]">
                 <h3>DepxTech</h3>
                 <div className="flex-1"/>
-                <Link href="/cart"><MdOutlineShoppingBag size={24} /></Link>
+                <TransitionLinkBackNav href="/cart"><MdOutlineShoppingBag size={24} /></TransitionLinkBackNav>
             </div>
-            <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)]">
-                {children}
+            <div id="mainContant">
+                <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)]">
+                    {children}
+                </div>
             </div>
             <BottomNav/>
         </>

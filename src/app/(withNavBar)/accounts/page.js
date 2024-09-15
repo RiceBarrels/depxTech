@@ -13,6 +13,7 @@ import { RiCustomerServiceLine } from "react-icons/ri";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { HiOutlineLocationMarker } from "react-icons/hi"
 import Recommends from "@/components/server/recommends";
+import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 
 export default async function Accounts() {
   const { userId } = auth();
@@ -21,8 +22,8 @@ export default async function Accounts() {
   let userName = "Guest";
   let authUtility = (
     <>
-      <Link class="w-max button flex-1 mx-4 py-2" href="./signIn">Sign In</Link>
-      <Link class="w-max button-secondary flex-1 mr-4 py-2" href="./signUp">Sign Up</Link>
+      <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./signIn">Sign In</TransitionLinkBackNav>
+      <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./signUp">Sign Up</TransitionLinkBackNav>
     </>
   );
 
@@ -55,60 +56,60 @@ export default async function Accounts() {
           <div class="text-xs flex">User ID:&nbsp;<span class="truncate flex-1">{userId}</span></div>
         </div>
         &nbsp;&nbsp;
-        <Link href="accounts/settings" >
+        <TransitionLinkBackNav href="accounts/settings" >
           <TbSettings2 class="rotate-90" size={24}/>
-        </Link>
+        </TransitionLinkBackNav>
       </div>
 
       <div className="background-card rounded-t-2xl rounded-b-md m-2 p-4 flex flex-col font-bold">
         <space/>
-        <Link href="accounts/orders" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        <TransitionLinkBackNav href="accounts/orders" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <BsJournalText class="mx-2" size={20}/>
           <small class="mx-2 ">My Orders</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
-        <Link href="accounts/myReviews" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/myReviews" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <FiStar class="mx-2" size={20}/>
           <small class="mx-2">My Reviews</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
-        <Link href="accounts/address" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/address" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <HiOutlineLocationMarker class="mx-2" size={20}/>
           <small class="mx-2">My Address</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
-        <Link href="accounts/coupons" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/coupons" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCoupon3Line class="mx-2" size={20}/>
           <small class="mx-2">Coupons & Offers</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
+        </TransitionLinkBackNav>
         <space/>
       </div>
 
       <div className="background-card rounded-t-md rounded-b-2xl m-2 p-2 py-4 flex flex-col font-bold">
         <space/>
-        <Link href="accounts/about" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        <TransitionLinkBackNav href="accounts/about" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <GrCircleQuestion class="mx-2" size={20}/>
           <small class="mx-2">About Us</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
-        <Link href="accounts/version" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/version" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <IoMdInformationCircleOutline class="mx-2" size={20}/>
           <small class="mx-2">App Version</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
-        <Link href="accounts/customerService" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/customerService" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCustomerServiceLine class="mx-2" size={20}/>
           <small class="mx-2">Customer Service</small>
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
-        </Link>
+        </TransitionLinkBackNav>
         <space/>
       </div>
 

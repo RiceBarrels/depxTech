@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TransitionLink } from "@/components/client/pageTransition";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { FlipWords } from "@/components/ui/flip-words";
 import Recommends from "@/components/server/recommends";
