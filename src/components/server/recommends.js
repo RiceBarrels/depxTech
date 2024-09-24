@@ -20,7 +20,7 @@ import Image from "next/image";
 import AddItem from "../client/addItem";
 
 async function getData() {
-    const res = await fetch('https://api.DepxTech.com/search?limit=50&filter_sellBySelf=1');
+    const res = await fetch('https://api.depxtech.com/search?limit=50&filter_sellBySelf=1');
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.
    
@@ -129,7 +129,7 @@ export default async function Recommends() {  // Default value for items
                                         ) : (
                                             <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
                                                 {images.map((image) => {
-                                                    return <CarouselSlide key={image}><Image src={"https://src.DepxTech.com/"+image} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
+                                                    return <CarouselSlide key={image}><Image src={"https://src.depxtech.com/"+image} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
                                                 })}
                                             </Carousel>
                                         )}
