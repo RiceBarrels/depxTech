@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { SignOutButton } from "@clerk/nextjs";
-import { use } from "react";
 import { TbSettings2 } from "react-icons/tb";
 import { BsJournalText } from "react-icons/bs";
 import { FiStar } from "react-icons/fi";
@@ -48,17 +47,20 @@ export default async function Accounts() {
   }
   return (
     <>
-      <div class="flex p-4 my-8 m-2 rounded-2xl background-card">
+      <div class="flex p-4 my-8 m-2 rounded-2xl background-card justify-center items-center">
         <img class="rounded-full" width={64} src={userImage}/>
         &nbsp;&nbsp;
         <div class="flex-1">
           <h3 class="">{userName}</h3>
-          <div class="text-xs flex">User ID:&nbsp;<span class="truncate flex-1">{userId}</span></div>
+          {user && <div class="text-xs flex">User ID:&nbsp;<span class="truncate flex-1">{userId}</span></div>}
+          {!user && <div class="text-xs flex"><TransitionLinkBackNav className="underline" href="./signIn">Sign In</TransitionLinkBackNav>&nbsp;or&nbsp;<TransitionLinkBackNav className="underline" href="./signIn">Register</TransitionLinkBackNav> </div>}
         </div>
         &nbsp;&nbsp;
-        <TransitionLinkBackNav href="accounts/settings" >
-          <TbSettings2 class="rotate-90" size={24}/>
-        </TransitionLinkBackNav>
+        {user &&
+          <TransitionLinkBackNav href="profile" >
+            <TbSettings2 class="rotate-90" size={24}/>
+          </TransitionLinkBackNav>
+        }
       </div>
 
       <div className="background-card rounded-t-2xl rounded-b-md m-2 p-4 flex flex-col font-bold">

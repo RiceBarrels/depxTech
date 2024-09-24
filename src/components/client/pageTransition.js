@@ -27,7 +27,7 @@ export const TransitionLink = ({ children, href, ...props }) => {
     startTransition(() => {
       router.push(href);
     });
-    await sleep(10);
+    await sleep(100);
 
     loader?.classList.add("noTiming");
     mainContant?.classList.add("noTiming");
@@ -53,7 +53,7 @@ export const TransitionLinkBackNav = ({ children, href, ...props }) => {
     const loader = document.getElementById("transition-loader");
 
     loader?.classList.add("backNavSlide");
-    await sleep(10);
+    await sleep(100);
     loader?.classList.add("slideIn");
     loader?.classList.remove("noTiming");
     mainContant?.classList.add("mainSlideOut");

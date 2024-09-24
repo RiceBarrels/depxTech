@@ -1,7 +1,5 @@
 "use client"
 
-import Image from "next/image";
-import Link from "next/link";
 import { FaBox , FaBoxOpen , FaTruck , FaCalendarCheck } from "react-icons/fa";
 import {
   Tabs,
@@ -96,7 +94,8 @@ export default function order() {
         <TabsContent value="shipped">{shipped}</TabsContent>
         <TabsContent value="arived">{arived}</TabsContent>
       </Tabs>
-      <Recommends />
+      {/* <Recommends /> */}
+      {/* this is a server component */}
     </>
   );
 }

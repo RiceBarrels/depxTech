@@ -100,7 +100,7 @@ export default async function Recommends() {  // Default value for items
                                             <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                         ) : (
                                             <div className="relative w-[100%] pb-[100%]">
-                                                <Image src={"https://src.DepxTech.com/"+images[0]} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                                <Image src={"https://src.depxtech.com/"+images[0]} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
                                             </div>
                                         )}
                                         <div className="space-y-1 p-1 w-full">
@@ -113,7 +113,7 @@ export default async function Recommends() {  // Default value for items
                                     </div>
                                 </DrawerTrigger>
                                 
-                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850]">
+                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[9999]">
                                     <DrawerHeader className="flex">
                                         <DrawerClose ><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
                                         <div className="flex-1">

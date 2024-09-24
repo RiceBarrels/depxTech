@@ -1,5 +1,3 @@
-"use server"
-
 import Image from 'next/image';
 import { createClerkSupabaseClientSsr } from './client'
 import getData from '@/components/server/getData';

@@ -114,3 +114,24 @@
     color: var(--foreground-rgb);
     padding-bottom: 0px;
 }
+
+.cl-pageScrollBox,.cl-navbarMobileMenuRow,.cl-navbar,.cl-internal-1cftg7i,.cl-menuList {
+    background-color: var(--background-start-rgb);
+    background: var(--background-start-rgb);
+    color: var(--foreground-rgb);
+}
+
+.cl-pageScrollBox *,.cl-navbarMobileMenuRow *{
+    color: var(--foreground-rgb);
+    background-color: var(--background-start-rgb);
+}
+
+.cl-pageScrollBox .cl-providerIcon{
+    background-color: #00000000 !important;
+}
+
+.cl-pageScrollBox .cl-button,.cl-navbarMobileMenuRow .cl-button,.cl-navbarButtons .cl-button{
+    background-color: #00000000 !important;
+    color: var(--foreground-rgb);
+    border: 2px solid #00000000 !important;
+}
