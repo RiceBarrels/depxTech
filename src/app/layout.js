@@ -17,12 +17,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "DepxTech Custom PCs",
-  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection.",
-  appleWebApp: {
-    title: "DeepHuo",
-    statusBarStyle: 'black-translucent',
-    
-  }
+  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection."
 };
 
 export const viewport = {
