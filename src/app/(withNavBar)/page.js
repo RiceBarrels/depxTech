@@ -10,6 +10,14 @@ import Particles from "@/components/magicui/particles";
 import SparklesText from "@/components/magicui/sparkles-text";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 
+export const metadata = {
+  title: "DepxTech Custom PCs",
+  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection.",
+  appleWebApp: {
+    title: "DepxTech",
+    statusBarStyle: 'black-translucent'
+  }
+};
 
 export default async function Page() {
   const { userId } = auth();
