@@ -8,7 +8,7 @@ import {
   AddressElement
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/nextjs'
 
 
 const CheckoutPage = ({ amount }) => {
@@ -17,12 +17,14 @@ const CheckoutPage = ({ amount }) => {
   const [errorMessage, setErrorMessage] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = React.useState('');
-  // const {isUserLoaded, user} = useUser();
+  const [email, setEmail] = React.useState();
+  const { isLoaded, isSignedIn, user } = useUser();
 
-  // if (!isUserLoaded) {
-  //   setEmail(user.email);
-  // }
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      setEmail(user.emailAddresses[0].emailAddress);
+    }
+  }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -40,7 +42,7 @@ const CheckoutPage = ({ amount }) => {
     event.preventDefault();
     setLoading(true);
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !isLoaded || !isSignedIn) {
       return;
     }
 
@@ -107,8 +109,8 @@ const CheckoutPage = ({ amount }) => {
         options={{
           mode: "shipping",
           autocomplete: {
-            mode: "google_maps_api",
-            apiKey: "{YOUR_GOOGLE_MAPS_API_KEY}",
+            mode: "automatic",
+            apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_SECRET,
           }
         }}
         onChange={(event) => {
@@ -127,7 +129,6 @@ const CheckoutPage = ({ amount }) => {
         placeholder="Enter email address"
         className="p-3 rounded-sm border-[1px solid] outline-2 text-[#000000] w-full mb-4"
       />
-      {email}
       {clientSecret && <PaymentElement options={paymentElementOptions} />}
 
       {errorMessage && <div>{errorMessage}</div>}

@@ -37,7 +37,7 @@ export default function RootLayout({ children, nav }) {
             {/* <div className="background-default"> */}
               {children}
               <div id="transition-loader" className="bg-[var(--background-start-rgb)]" >
-                <div className="backNav rounded-b-xl">
+                <div className="flex h-[45px] background-card items-center rounded-b-xl">
                     {/* back button */}
                     <button className="flex justify-center items-center pl-2"><IoIosArrowBack size={24} /> Back</button>
                     <div className="flex justify-center items-center flex-1"/>
