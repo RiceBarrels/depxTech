@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 import { Vortex } from "@/components/ui/vortex";
 import { BiSolidCheckShield } from "react-icons/bi";
 import { FaBoxOpen } from "react-icons/fa";
@@ -21,27 +21,27 @@ import Support from "@/app/(withNavBar)/support/page";
 export default function Other() {
   const tradableItems = (
     <div className="flex justify-center items-center flex-col m-2 md:flex-row md:flex-wrap md:justify-start">
-      <Link href="trade/gpu" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
+      <TransitionLinkBackNav href="trade/gpu" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
         <div className="flex-1 m-2 ml-3">
           <h2 className="text-[0.9rem] font-bold">GPU (Graphics Card)</h2>
           <p className="text-[0.9rem] text-[#888888]">Up to $1200</p>
         </div>
         <img className="w-12 mr-2" src="./img/gputradein.png"/>
-      </Link>
-      <Link href="trade/cpu" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
+      </TransitionLinkBackNav>
+      <TransitionLinkBackNav href="trade/cpu" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
         <div className="flex-1 m-2 ml-3">
           <h2 className="text-[0.9rem] font-bold">CPU (Processor)</h2>
           <p className="text-[0.9rem] text-[#888888]">Up to $300</p>
         </div>
         <img className="w-12 mr-2" src="./img/cputradein.png"/>
-      </Link>
-      <Link href="trade/ram" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
+      </TransitionLinkBackNav>
+      <TransitionLinkBackNav href="trade/ram" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
         <div className="flex-1 m-2 ml-3">
           <h2 className="text-[0.9rem] font-bold">RAM (Random Access Memory)</h2>
           <p className="text-[0.9rem] text-[#888888]">Up to $30</p>
         </div>
         <img className="w-12 mr-2" src="./img/ramtradein.png"/>
-      </Link>
+      </TransitionLinkBackNav>
     </div>
   );
   return (

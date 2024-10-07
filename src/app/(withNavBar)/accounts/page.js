@@ -26,8 +26,6 @@ export default async function Accounts() {
     </>
   );
 
-  console.log(user.emailAddresses[0].emailAddress)
-
   if (userId){
     if(user.hasImage == true){
       userImage = user.imageUrl;

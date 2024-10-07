@@ -15,6 +15,9 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { GrClose } from "react-icons/gr";
+import { Button } from '../ui/button';
+import Link from 'next/link';
+import { TransitionLink, TransitionLinkBackNav } from './pageTransition';
 
 export default function AddItem({ item, isIndividual = "0" }) {
     const [loading, setLoading] = useState(true);
@@ -102,10 +105,9 @@ export default function AddItem({ item, isIndividual = "0" }) {
     const images = item.imgs ? JSON.parse(item.imgs) : [];
 
     return (
-        <>
-            <Drawer>
+            <Drawer className="">
                 <DrawerTrigger asChild>
-                    <button className="flex-1 button-secondary py-2">Add to Cart</button>
+                    <Button className="flex-1 button-secondary py-2">Add to Cart</Button>
                 </DrawerTrigger>
 
                 <DrawerContent className="flex-col flex h-[50dvh] border-[0.5px] border-[#88888850]">
@@ -119,26 +121,60 @@ export default function AddItem({ item, isIndividual = "0" }) {
                     </DrawerHeader>
 
                     <div className='flex flex-col'>
-                            <div className='flex'>
-                                <Image src={"https://src.DepxTech.com/"+images[0]} width="500" height="500" alt={item.id} className="w-1/3 h-1/3 object-contain rounded-xl" />
-                                <div>
-                                    <small>Quantity:</small>
+                            <div className='flex justify-around'>
+                                <Image src={"https://src.DepxTech.com/"+images[0]} width="500" height="500" alt={item.id} className="w-1/4 object-contain rounded-xl bg-[#88888820]" />
+                                <div className="w-1/2">
+                                    <div className="text-2xl text-left font-extrabold">
+                                        <span className="text-sm align-top">$ </span>
+                                        <span>{item.price.split('.')[0]}</span>
+                                        <span className="text-[0px]">.</span>
+                                        <span className="text-sm align-top">{item.price.split('.')[1]}</span> Each
+                                    </div>
+                                    <p>Quantity <small>({item.available} left)</small>:</p>
+                                    
                                     <Input 
                                         autoFocus
                                         type="number"
                                         name="quantity"
                                         placeholder="quantity"
-                                        onChange={(e) => setQuantity(e.target.value)}
+                                        value={quantity}
+                                        min="1"
+                                        max={item.available}
+                                        onChange={(e) => {
+                                            const value = parseInt(e.target.value);
+                                            if (value > item.available) {
+                                                setQuantity(item.available);
+                                            } else if (value < 1) {
+                                                setQuantity(1);
+                                            } else {
+                                                setQuantity(value);
+                                            }
+                                        }}
+                                        onBlur={(e) => {
+                                            if (quantity > item.available) {
+                                                alert(`Only ${item.available} items are available.`);
+                                                setQuantity(item.available);
+                                            }
+                                        }}
                                         defaultValue="1"
                                     />
+
                                 </div>
                             </div>
                     </div>
                     <DrawerFooter className='flex'>
-                    <button onClick={createTask} className="w-full button py-2"><DrawerClose className="w-full">Add to Cart</DrawerClose></button>
+                        {quantity > 0 &&
+                            <div className="text-2xl text-right font-extrabold">
+                                +
+                                <span className="text-sm align-top">$ </span>
+                                <span>{("" + Math.round(quantity * item.price * 100) / 100).split('.')[0]}</span>
+                                <span className="text-[0px]">.</span>
+                                <span className="text-sm align-top">{("" + Math.round(quantity * item.price * 100) / 100).split('.')[1]}</span>
+                            </div>
+                        }
+                        <TransitionLinkBackNav href="cart"><Button onClick={createTask} className="w-full button mb-2"><DrawerClose className="w-full">Add to Cart</DrawerClose></Button></TransitionLinkBackNav>
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
-        </>
     );
 }

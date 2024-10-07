@@ -11,7 +11,7 @@ import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { useUser } from '@clerk/nextjs'
 
 
-const CheckoutPage = ({ amount }) => {
+const CheckoutPage = ({ amount,cart }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
@@ -32,7 +32,7 @@ const CheckoutPage = ({ amount }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+      body: JSON.stringify({ amount: convertToSubcurrency(amount), cart: cart }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
@@ -89,7 +89,7 @@ const CheckoutPage = ({ amount }) => {
   }
 
   const paymentElementOptions = {
-    layout: "accordion",
+
   };
 
   const handleNextStep = async () => {
@@ -106,6 +106,7 @@ const CheckoutPage = ({ amount }) => {
   return (
     <form onSubmit={handleSubmit} className="p-2 rounded-md">
       <AddressElement 
+
         options={{
           mode: "shipping",
           autocomplete: {

@@ -48,7 +48,7 @@ const SparklesText = ({
   }, [colors.first, colors.second]);
 
   return (
-    (<div
+    (<h1
       className={cn("text-6xl font-bold", className)}
       {...props}
       style={
@@ -63,7 +63,7 @@ const SparklesText = ({
         ))}
         <strong>{text}</strong>
       </span>
-    </div>)
+    </h1>)
   );
 };
 

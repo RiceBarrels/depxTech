@@ -49,7 +49,17 @@ export default async function Page() {
     <>
       <Search />
       <div className="h-[40dvh] flex flex-col my-6">
-        <Carousel className="text-lg md:text-xl h-full lg:text-2xl font-bold inter-var text-left w-full px-12" loop withIndicators>
+        <Carousel className="text-lg md:text-xl h-full lg:text-2xl font-bold inter-var text-left w-full" loop withIndicators>
+
+          <CarouselSlide className="border bg-background rounded-lg h-[40dvh] p-8 pl-10">
+            <div className="flex flex-col justify-center h-full">
+              <SparklesText className="text-4xl mb-4 w-2/3" text="Sell you PC parts in 5 min!" />
+              <div className="w-2/3">
+                <RainbowButton url="trade">Trade Now</RainbowButton>
+              </div>
+            </div>
+          </CarouselSlide>
+
           <CarouselSlide className="border bg-background rounded-lg h-[40dvh] p-8" slideGap="lg" controlsOffset="xs">
             <div className="">
               Customize a <WordRotate
@@ -65,12 +75,6 @@ export default async function Page() {
               color={"#777"}
               refresh
             />
-          </CarouselSlide>
-          <CarouselSlide className="border bg-background rounded-lg h-[40dvh] p-8 flex items-center justify-center">
-            <div>
-              <SparklesText className="text-4xl mb-4" text="Sell you PC parts in 5 min!" />
-              <RainbowButton url="tradeIn">Sell Now</RainbowButton>
-            </div>
           </CarouselSlide>
         </Carousel>
       </div>

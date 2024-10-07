@@ -113,7 +113,7 @@ export default async function Recommends() {  // Default value for items
                                     </div>
                                 </DrawerTrigger>
                                 
-                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[9999]">
+                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[1003]">
                                     <DrawerHeader className="flex">
                                         <DrawerClose ><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
                                         <div className="flex-1">
