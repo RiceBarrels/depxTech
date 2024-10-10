@@ -9,7 +9,12 @@ import { Carousel, CarouselSlide } from "@mantine/carousel";
 import Particles from "@/components/magicui/particles";
 import SparklesText from "@/components/magicui/sparkles-text";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
-
+export const metadata = {
+  appleWebApp: {
+    title: "DepxTech",
+    statusBarStyle: 'black-translucent'
+  }
+};
 export default async function Page() {
   const { userId } = auth();
   const user = await currentUser();
