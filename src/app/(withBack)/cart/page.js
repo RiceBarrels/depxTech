@@ -18,6 +18,7 @@ export default function Home() {
     const [totalAmount, setTotalAmount] = useState(0);
     const [cartElement, setCartElement] = useState(<div></div>);
     const [editing, setEditing] = useState(false);
+    const [firstTime, setFirstTime] = useState(true);
     const { user } = useUser();
     const { session } = useSession();
 
@@ -47,84 +48,96 @@ export default function Home() {
     const client = createClerkSupabaseClient();
 
     useEffect(() => {
-        if (!user) return;
+    if (!user) return;
 
-        async function loadCart() {
-            setLoading(true);
-            const { data, error } = await client
-                .from('userdata')
-                .select('cart');
+    async function loadCart() {
+        setLoading(true);
+        const { data, error } = await client
+        .from('userdata')
+        .select('cart');
 
-            if (!error) {
-                setCart(data[0].cart);
-                console.log(data[0].cart);
-            }
+        if (!error) {
+        setCart(data[0].cart);
+        console.log(data[0].cart);
         }
+        setLoading(false); // Move this here to ensure it stops loading even if there's an error
+    }
 
-        loadCart();
-    }, [user]);
+    loadCart();
+    },  [user]);
 
     useEffect(() => {
-      async function loadAmountAndElement() {
-          let total = 0;
-          let cartItems = [];
-  
-          const fetchPromises = cart.map(async (cartItem, index) => {
-              const response = await fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`);
-              const item = await response.json();
-              const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
-              const selfPrice = Math.round(item[0].price * parseInt(cartItem.quantity) * 100) / 100;
-              total += selfPrice;
-              cartItems.push(
-                  <div key={index} className='flex'>
-                      <motion.div
-                        className='flex justify-center items-center'
-                        animate={{ opacity: editing ? 1 : 0, width: editing ? "48px" : 0 }}
-                          transition={{
-                              type: "spring",
-                              stiffness: 260,
-                              damping: 20
-                          }}
-                      >
-                          X
-                      </motion.div>
-                      <div className="flex flex-1 items-center mb-4 gap-x-3 background-card p-2 rounded-2xl">
-                          <Image
-                              src={`https://src.depxtech.com/${images[0]}`}
-                              width="84"
-                              height="84"
-                              alt={item.id}
-                              className="w-24 h-24 object-contain rounded-xl bg-[#77777720]"
-                          />
-                          <div className="flex flex-1 flex-col">
-                              <h3 className="text-ellipsis line-clamp-2 whitespace-normal">
-                                  {item[0].title}
-                              </h3>
-                              <div className='flex flex-row'>
-                                  <div className="text-2xl text-left font-extrabold flex-1">
-                                      <span className="text-sm">$ </span>
-                                      <span className='align-bottom'>{`${selfPrice}`.split('.')[0]}</span>
-                                      <span className="text-[0px]">.</span>
-                                      <span className="text-sm">{`${selfPrice}`.split('.')[1] || "00"}</span>
-                                  </div>
-                                  <div className='align-bottom'>x{cartItem.quantity}</div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              );
-          });
-  
-          await Promise.all(fetchPromises);
-          setTotalAmount(total);
-          setCartElement(cartItems);
-          setLoading(false);
-      }
-  
-      if (cart.length > 0) {
-          loadAmountAndElement();
-      }
-  }, [cart, editing]);
+        async function loadAmountAndElement() {
+            let total = 0;
+            let cartItems = [];
+        
+            for (let index = 0; index < cart.length; index++) {
+                const cartItem = cart[index];
+                const response = await fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`);
+                const item = await response.json();
+                const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
+                const selfPrice = Math.round(item[0].price * parseInt(cartItem.quantity) * 100) / 100;
+                total += selfPrice;
+                cartItems.push(
+                    <motion.div 
+                        key={index} 
+                        className='flex'
+                        initial={{ transform: firstTime ? 'scale(0.5)' : 'scale(1)' }}
+                        animate={{ transform: 'scale(1)' }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 20
+                        }}
+                    >
+                        <motion.div
+                            className='flex justify-center items-center'
+                            animate={{ opacity: editing ? 1 : 0, width: editing ? "48px" : 0 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 260,
+                                damping: 20
+                            }}
+                        >
+                            X
+                        </motion.div>
+                        <div className="flex flex-1 items-center mb-4 gap-x-3 background-card p-2 rounded-2xl">
+                            <Image
+                                src={`https://src.depxtech.com/${images[0]}`}
+                                width="84"
+                                height="84"
+                                alt={item[0].id}
+                                className="w-24 h-24 object-contain rounded-xl bg-[#77777720]"
+                            />
+                            <div className="flex flex-1 flex-col">
+                                <h3 className="text-ellipsis line-clamp-2 whitespace-normal">
+                                    {item[0].title}
+                                </h3>
+                                <div className='flex flex-row'>
+                                    <div className="text-2xl text-left font-extrabold flex-1">
+                                        <span className="text-sm">$ </span>
+                                        <span className='align-bottom'>{`${selfPrice}`.split('.')[0]}</span>
+                                        <span className="text-[0px]">.</span>
+                                        <span className="text-sm">{`${selfPrice}`.split('.')[1] || "00"}</span>
+                                    </div>
+                                    <div className='align-bottom'>x{cartItem.quantity}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                );
+                setCartElement([...cartItems]);
+            }
+        
+            setTotalAmount(Math.round(total*100)/100);
+            setLoading(false);
+        }
+        
+        if (cart.length > 0) {
+            loadAmountAndElement();
+        }
+    }, [cart, editing]);
+    
   
 
     return (
@@ -137,7 +150,6 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col">
                   {cartElement}
-                  <br/><br/><br/><br/><br/><br/><br/>
                 </div>
               </div>
               <div className='m-4'>

@@ -17,20 +17,39 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "DepxTech Custom PCs",
-  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection."
+  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection.",
+  appleWebApp: {
+    title: "DepxTech",
+    statusBarStyle: 'black-translucent'
+  }
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
+  userScalable: "no",
 }
 
 export default function RootLayout({ children, nav }) {
   
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          href="/apple-icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/apple-icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+      </head>
       <body className={inter.className}>
         <MantineProvider>
           <ClerkProvider>
