@@ -34,7 +34,7 @@ export default function BackNav(){
                     }}
                 >
                     {/* display the page name using navigation */}
-                    {pageName}
+                    {pageName.replace('-'," ")}
                 </motion.div>
                 <div className="w-[70px]" />
             </div>

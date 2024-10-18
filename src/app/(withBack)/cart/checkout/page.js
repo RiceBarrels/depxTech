@@ -19,6 +19,7 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0);
     const [cartElement, setCartElement] = useState(<div></div>);
+    const [description, setDescription] = useState("");
     const { user } = useUser();
     const { session } = useSession();
 
@@ -69,6 +70,7 @@ export default function Home() {
         async function loadAmountAndElement() {
             let total = 0;
             let cartItems = [];
+            let des = "";
             setCartElement(<div>Loading...</div>);
             for (let i = 0; i < cart.length; i++) {
                 const response = await fetch(`https://api.depxtech.com/read?filter_id=${cart[i].itemId}`);
@@ -76,6 +78,8 @@ export default function Home() {
                 const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
                 const selfPrice = Math.round(item[0].price * parseInt(cart[i].quantity) * 100)/100;
                 total += selfPrice;
+                des += `* ${item[0].title} x${cart[i].quantity}\n`;
+                
                 cartItems.push(
                     <div key={i} className="flex items-center mb-2 gap-x-3">
                       <Image 
@@ -103,6 +107,7 @@ export default function Home() {
             }
             setTotalAmount(total);
             setCartElement(cartItems);
+            setDescription(`Items:\n\n${des}`);
         }
 
         if (cart.length > 0) {
@@ -143,7 +148,7 @@ export default function Home() {
                         currency: "usd",
                     }}
                 >
-                    <CheckoutPage amount={totalAmount} cart={cart} />
+                    <CheckoutPage amount={totalAmount} cart={cart} description={description} />
                 </Elements>
             )}
         </main>

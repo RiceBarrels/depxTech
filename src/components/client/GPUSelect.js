@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion";
-import Link from 'next/link';
+import { TransitionLinkBackNav } from '@/components/client/pageTransition';
 
 export default function GPUSelect({ data }) {
     const [selectedGPU, setSelectedGPU] = useState(null);
@@ -187,7 +187,7 @@ export default function GPUSelect({ data }) {
                         damping: 20
                     }}
                 >
-                    <Link href={`gpu/${selectedGPU}/${selectedType}/${selectedModel}/${selectedBrand}/${selectedCondition}`}><Button className="mx-4 w-[calc(100%-2rem)]">Next</Button></Link>
+                    <TransitionLinkBackNav href={`gpu/${selectedGPU}/${selectedType}/${selectedModel}/${selectedBrand}/${selectedCondition}/Sell-GPU`}><Button className="mx-4 w-[calc(100%-2rem)]">Next</Button></TransitionLinkBackNav>
                 </motion.div>
             )}
         </div>

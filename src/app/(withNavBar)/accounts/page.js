@@ -21,8 +21,8 @@ export default async function Accounts() {
   let userName = "Guest";
   let authUtility = (
     <>
-      <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./signIn">Sign In</TransitionLinkBackNav>
-      <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./signUp">Sign Up</TransitionLinkBackNav>
+      <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./sign-in">Sign In</TransitionLinkBackNav>
+      <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./sign-up">Sign Up</TransitionLinkBackNav>
     </>
   );
 
@@ -51,7 +51,7 @@ export default async function Accounts() {
         <div class="flex-1">
           <h3 class="">{userName}</h3>
           {user && <div class="text-xs flex">User ID:&nbsp;<span class="truncate flex-1">{userId}</span></div>}
-          {!user && <div class="text-xs flex"><TransitionLinkBackNav className="underline" href="./signIn">Sign In</TransitionLinkBackNav>&nbsp;or&nbsp;<TransitionLinkBackNav className="underline" href="./signIn">Register</TransitionLinkBackNav> </div>}
+          {!user && <div class="text-xs flex"><TransitionLinkBackNav className="underline" href="./sign-in">Sign In</TransitionLinkBackNav>&nbsp;or&nbsp;<TransitionLinkBackNav className="underline" href="./sign-in">Register</TransitionLinkBackNav> </div>}
         </div>
         &nbsp;&nbsp;
         {user &&

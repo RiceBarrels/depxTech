@@ -49,6 +49,7 @@ export default function RootLayout({ children, nav }) {
           type="image/<generated>"
           sizes="<generated>"
         />
+        <link rel="favicon" href="/apple-icon?<generated>" />
       </head>
       <body className={inter.className}>
         <MantineProvider>
