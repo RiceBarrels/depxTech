@@ -16,7 +16,7 @@ export default function Home() {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalAmount, setTotalAmount] = useState(0);
-    const [cartElement, setCartElement] = useState(<div></div>);
+    const [cartItems, setCartItems] = useState([]); // State to store the rendered cart items
     const [editing, setEditing] = useState(false);
     const [firstTime, setFirstTime] = useState(true);
     const { user } = useUser();
@@ -48,37 +48,44 @@ export default function Home() {
     const client = createClerkSupabaseClient();
 
     useEffect(() => {
-    if (!user) return;
+        if (!user) return;
 
-    async function loadCart() {
-        setLoading(true);
-        const { data, error } = await client
-        .from('userdata')
-        .select('cart');
+        async function loadCart() {
+            setLoading(true);
+            const { data, error } = await client
+                .from('userdata')
+                .select('cart');
 
-        if (!error) {
-        setCart(data[0].cart);
-        console.log(data[0].cart);
+            if (!error) {
+                setCart(data[0].cart);
+                console.log(data[0].cart);
+            }
+            setLoading(false); // Ensure loading stops even if there's an error
         }
-        setLoading(false); // Move this here to ensure it stops loading even if there's an error
-    }
 
-    loadCart();
-    },  [user]);
+        loadCart();
+    }, [user]);
 
     useEffect(() => {
-        async function loadAmountAndElement() {
+        if (!cart.length) return; // Don't proceed if the cart is empty
+
+        async function loadAmountAndCartItems() {
+            setLoading(true); // Start loading while fetching items
             let total = 0;
-            let cartItems = [];
-        
-            for (let index = 0; index < cart.length; index++) {
+
+            const itemPromises = cart.map(cartItem =>
+                fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`).then(response => response.json())
+            );
+
+            const items = await Promise.all(itemPromises); // Wait for all item requests to resolve
+
+            const renderedCartItems = items.map((item, index) => {
                 const cartItem = cart[index];
-                const response = await fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`);
-                const item = await response.json();
                 const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
                 const selfPrice = Math.round(item[0].price * parseInt(cartItem.quantity) * 100) / 100;
                 total += selfPrice;
-                cartItems.push(
+
+                return (
                     <motion.div 
                         key={index} 
                         className='flex'
@@ -126,57 +133,74 @@ export default function Home() {
                         </div>
                     </motion.div>
                 );
-                setCartElement([...cartItems]);
-            }
-        
-            setTotalAmount(Math.round(total*100)/100);
-            setLoading(false);
-        }
-        
-        if (cart.length > 0) {
-            loadAmountAndElement();
-        }
-    }, [cart, editing]);
-    
-  
+            });
 
-    return (
-        <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col">
-            <div className="flex-1 flex max-h-[calc(100dvh-45px-16px)] flex-col">
-              <div className='flex-1 overflow-auto pr-4'>
-                <div className='flex item-center pt-8'>
-                  <h1 className="text-4xl font-extrabold mb-12 flex-1 flex items-end">Cart {cart.length!=0 && <span className='text-2xl'>({cart.length})</span> || <Skeleton className="inline-block w-[34px] h-[30px]"/>}</h1>
-                  <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button>
+            setTotalAmount(Math.round(total * 100) / 100);
+            setCartItems(renderedCartItems); // Store the rendered items in state
+            setLoading(false); // Stop loading
+        }
+
+        loadAmountAndCartItems();
+    }, [cart, editing, firstTime]);    
+    
+    if (cart.length > 0 || loading) {
+        return (
+            <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col">
+                <div className="flex-1 flex max-h-[calc(100dvh-45px-16px)] flex-col">
+                <div className='flex-1 overflow-auto pr-4'>
+                    <div className='flex item-center pt-8'>
+                    <h1 className="text-4xl font-extrabold mb-12 flex-1 flex items-end">Cart {cart.length != 0 && <span className='text-2xl'>({cart.length})</span> || <Skeleton className="inline-block w-[34px] h-[30px]"/>}</h1>
+                    <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button>
+                    </div>
+                    <div className="flex flex-col">
+                    {cartItems}
+                    </div>
                 </div>
-                <div className="flex flex-col">
-                  {cartElement}
+                <div className='m-4'>
+                    <h3 className="flex text-2xl items-end pb-6">
+                    <div className='flex-1 align-bottom'>Total:</div>
+                    <div className="text-2xl font-extrabold">
+                        {totalAmount === 0 && <Skeleton className="h-8 w-16"/> || (
+                        <>
+                            <span className="text-sm">$ </span>
+                            <span className='align-bottom'>{`${totalAmount}`.split('.')[0]}</span>
+                            <span className="text-[0px]">.</span>
+                            <span className="text-sm">{`${totalAmount}`.split('.')[1]}</span>
+                        </>
+                        )}
+                    </div>
+                    </h3>
+                    {totalAmount != 0 && <TransitionLinkBackNav className="flex" href="/cart/checkout"><Button className="flex-1 text-md" size="lg">Checkout</Button></TransitionLinkBackNav> || <div className='flex'><Button className="flex-1 text-md" size="lg" variant="disabled">Checkout</Button></div>}
+                    <div className='flex justify-around *:inline *:h-8 *:w-auto *:px-3 *:py-1 *:border *:rounded-sm p-2 background-card my-2 rounded-xl border-[#88888888]'>
+                    <SiVisa />
+                    <SiMastercard />
+                    <SiDiscover />
+                    <FaApplePay />
+                    <SiGooglepay />
+                    <SiKlarna />
+                    </div>
                 </div>
-              </div>
-              <div className='m-4'>
-                <h3 className="flex text-2xl items-end pb-6">
-                  <div className='flex-1 align-bottom'>Total:</div>
-                  <div className="text-2xl font-extrabold">
-                    {totalAmount === 0 && <Skeleton className="h-8 w-16"/> || (
-                      <>
-                        <span className="text-sm">$ </span>
-                        <span className='align-bottom'>{`${totalAmount}`.split('.')[0]}</span>
-                        <span className="text-[0px]">.</span>
-                        <span className="text-sm">{`${totalAmount}`.split('.')[1]}</span>
-                      </>
-                    )}
-                  </div>
-                </h3>
-                {totalAmount != 0 && <TransitionLinkBackNav className="flex" href="/cart/checkout"><Button className="flex-1 text-md" size="lg">Checkout</Button></TransitionLinkBackNav> || <div className='flex'><Button className="flex-1 text-md" size="lg" variant="disabled">Checkout</Button></div>}
-                <div className='flex justify-around *:inline *:h-8 *:w-auto *:px-3 *:py-1 *:border *:rounded-sm p-2 background-card my-2 rounded-xl border-[#88888888]'>
-                  <SiVisa />
-                  <SiMastercard />
-                  <SiDiscover />
-                  <FaApplePay />
-                  <SiGooglepay />
-                  <SiKlarna />
                 </div>
-              </div>
-            </div>
-        </main>
-    );
+            </main>
+        );
+    } else if (!user){
+        return (
+            <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
+                <div className="">
+                    <h3>Please Sign In to use Cart</h3>
+                    <TransitionLinkBackNav href="/sign-in"><Button className="flex-1 text-md" size="lg">Sign In</Button></TransitionLinkBackNav>
+                </div>
+            </main>
+        )
+    } else {
+        return (
+            <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
+                <div className="">
+                    <h3>Your Cart is Empty...</h3>
+                    <Link href="/"><Button className="flex-1 text-md" size="lg">Continue Shopping</Button></Link>
+                </div>
+                
+            </main>
+        )
+    }
 }

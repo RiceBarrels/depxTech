@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import { motion } from "framer-motion";
+import { FaStar } from "react-icons/fa";
 
 const reviews = [
   {
@@ -75,6 +76,8 @@ const ReviewCard = ({
           <p className="text-xs font-medium dark:text-white/40">{date}</p>
         </div>
       </div>
+
+      <div className="flex mt-2"><FaStar color="yellow" size="12px"/><FaStar color="yellow" size="12px"/><FaStar color="yellow" size="12px"/><FaStar color="yellow" size="12px"/><FaStar color="yellow" size="12px"/></div>
       <blockquote className="mt-2 text-sm">{body}</blockquote>
     </figure>
   );
@@ -82,13 +85,13 @@ const ReviewCard = ({
 
 export function MarqueeDemo() {
   return (
-    <div className="relative flex h-[356px] m-2 w-[100%-1rem] flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-      <Marquee pauseOnHover className="[--duration:20s]">
+    <div className="relative flex h-[388px] m-2 w-[100%-1rem] flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+      <Marquee className="[--duration:20s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.date} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse className="[--duration:20s]">
         {secondRow.map((review) => (
           <ReviewCard key={review.date} {...review} />
         ))}
