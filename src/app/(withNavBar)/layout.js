@@ -1,6 +1,7 @@
 import BottomNav from "@/components/ui/bottomNav";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { TransitionLinkBackNav } from "@/components/client/pageTransition";
+import Footer from "@/components/server/footer";
 
 export const metadata = {
   title: "DeepHuo Custom PCs",
@@ -18,6 +19,7 @@ export default function withNavBar({children}){
             <div id="mainContant" className="flex align-center justify-center background-default">
                 <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)] lg:max-w-[1200px]">
                     {children}
+                    <Footer/>
                 </div>
             </div>
             <BottomNav/>
