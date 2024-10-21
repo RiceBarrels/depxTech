@@ -4,7 +4,7 @@ import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 import Footer from "@/components/server/footer";
 
 export const metadata = {
-  title: "DeepHuo Custom PCs",
+  title: "DepxTech Custom PCs & Sell PC components",
   description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection."
 };
 
