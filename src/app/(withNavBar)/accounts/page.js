@@ -104,7 +104,7 @@ export default async function Accounts() {
           <space/>
           <IoIosArrowForward class="mx-1" size={14} />
         </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="accounts/customerService" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+        <TransitionLinkBackNav href="support" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCustomerServiceLine class="mx-2" size={20}/>
           <small class="mx-2">Customer Service</small>
           <space/>

@@ -48,6 +48,9 @@ export default function RootLayout({ children, nav }) {
         <link rel="favicon" href="/apple-icon?<generated>" />
       </head>
       <body className={inter.className}>
+        
+        {/* <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="bf92da02-d496-4b70-ad25-eddbbd8cc9e4";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script> */}
+    
         <MantineProvider>
           <ClerkProvider>
             {/* <div className="background-default"> */}

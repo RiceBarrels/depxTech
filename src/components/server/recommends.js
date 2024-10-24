@@ -18,6 +18,8 @@ import '@mantine/carousel/styles.css';
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import Image from "next/image";
 import AddItem from "../client/addItem";
+import { TransitionLinkBackNav } from "../client/pageTransition";
+import { Button } from "../ui/button";
 
 async function getData() {
     const res = await fetch('https://api.depxtech.com/search?limit=50&filter_sellBySelf=1');
@@ -149,7 +151,7 @@ export default async function Recommends() {  // Default value for items
 
                                     <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850]">
                                         <AddItem item={item} images={images}/>
-                                        <button className="flex-1 button py-2">Buy Now</button>
+                                        <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"}><Button className="flex-1 button py-2">Buy Now</Button></TransitionLinkBackNav>
                                     </DrawerFooter>
                                 </DrawerContent>
                             </Drawer>

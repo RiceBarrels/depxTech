@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession, useUser } from '@clerk/nextjs'
+import { useSession, useUser, useAuth } from '@clerk/nextjs'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import Image from "next/image";
@@ -21,6 +21,7 @@ export default function Home() {
     const [firstTime, setFirstTime] = useState(true);
     const { user } = useUser();
     const { session } = useSession();
+    const { isSignedIn } = useAuth();
 
     function createClerkSupabaseClient() {
         return createClient(
@@ -142,14 +143,24 @@ export default function Home() {
 
         loadAmountAndCartItems();
     }, [cart, editing, firstTime]);    
-    
-    if (cart.length > 0 || loading) {
+    if (!isSignedIn) {
+        return (
+            <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
+                <div className="text-center">
+                    <h3 className="text-xl mb-4">Please Sign In to View Your Cart</h3>
+                    <TransitionLinkBackNav href="/sign-in">
+                        <Button className="flex-1 text-md" size="lg">Sign In</Button>
+                    </TransitionLinkBackNav>
+                </div>
+            </main>
+        );
+    } else if (cart.length > 0 || loading) {
         return (
             <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col">
                 <div className="flex-1 flex max-h-[calc(100dvh-45px-16px)] flex-col">
                 <div className='flex-1 overflow-auto pr-4'>
                     <div className='flex item-center pt-8'>
-                    <h1 className="text-4xl font-extrabold mb-12 flex-1 flex items-end">Cart {cart.length != 0 && <span className='text-2xl'>({cart.length})</span> || <Skeleton className="inline-block w-[34px] h-[30px]"/>}</h1>
+                    <h1 className="text-4xl font-extrabold mb-12 flex-1 flex items-end">Cart {cart.length != 0 && <span className='text-2xl'>({cart.length})</span> || <Skeleton className="inline-block w-[34px] h-[30px]"/>}</h1>
                     <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button>
                     </div>
                     <div className="flex flex-col">
@@ -183,24 +194,16 @@ export default function Home() {
                 </div>
             </main>
         );
-    } else if (!user){
-        return (
-            <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
-                <div className="">
-                    <h3>Please Sign In to use Cart</h3>
-                    <TransitionLinkBackNav href="/sign-in"><Button className="flex-1 text-md" size="lg">Sign In</Button></TransitionLinkBackNav>
-                </div>
-            </main>
-        )
     } else {
         return (
             <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
-                <div className="">
-                    <h3>Your Cart is Empty...</h3>
-                    <Link href="/"><Button className="flex-1 text-md" size="lg">Continue Shopping</Button></Link>
+                <div className="text-center">
+                    <h3 className="text-xl mb-4">Your Cart is Empty...</h3>
+                    <Link href="/">
+                        <Button className="flex-1 text-md" size="lg">Continue Shopping</Button>
+                    </Link>
                 </div>
-                
             </main>
-        )
+        );
     }
 }

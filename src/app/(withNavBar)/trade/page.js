@@ -18,7 +18,7 @@ import {
 import { IoIosArrowForward } from "react-icons/io";
 import Support from "@/app/(withNavBar)/support/page";
 
-export default function Other() {
+export default function Trade() {
   const tradableItems = (
     <div className="flex justify-center items-center flex-col m-2 md:flex-row md:flex-wrap md:justify-start">
       <TransitionLinkBackNav href="trade/gpu" className="background-card display flex justify-center items-center h-16 w-full rounded-xl m-4 my-2 md:w-80">
