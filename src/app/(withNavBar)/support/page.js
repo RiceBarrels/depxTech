@@ -8,14 +8,19 @@ import { useUser } from "@clerk/nextjs";
 import { BiLeftArrow } from "react-icons/bi";
 
 export default function Support() {
+  // State to track if Crisp chat is loaded
   const [isCrispLoaded, setIsCrispLoaded] = useState(false);
+  // Get user information from Clerk
   const { isLoaded, isSignedIn, user } = useUser();
+  // State to track if chat is open
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
+    // Initialize Crisp chat
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "bf92da02-d496-4b70-ad25-eddbbd8cc9e4";
 
+    // Load Crisp chat script
     (function() {
       const d = document;
       const s = d.createElement("script");
@@ -24,12 +29,14 @@ export default function Support() {
       d.getElementsByTagName("head")[0].appendChild(s);
     })();
 
+    // Check if Crisp is loaded and style elements
     const checkCrispLoaded = () => {
       if (window.$crisp && window.$crisp.is) {
         closeChat();
         setIsCrispLoaded(true);
         // Attempt to style Crisp elements after Crisp is loaded
         const styleCrispElements = () => {
+          // Select Crisp elements
           const originalButton = document.querySelector('.cc-157aw');
           const originalContainer = document.querySelector('.cc-1no03');
           const chat = document.querySelector('.cc-rfbfu');
@@ -39,6 +46,7 @@ export default function Support() {
           const chatFooter = document.querySelector('.cc-1nvun');
           const chatInput = document.querySelector('.cc-1icw9');
           if (originalButton && originalContainer && chat && chatBackground && chatTexts.length > 0 && chatHeader && chatFooter && chatInput) {
+            // Style Crisp elements
             originalButton.style.setProperty('display', 'none', 'important');
             originalContainer.style.setProperty('width', '100%', 'important');
             originalContainer.style.setProperty('left', '0', 'important');
@@ -62,6 +70,7 @@ export default function Support() {
         };
         styleCrispElements();
       } else {
+        // If Crisp is not loaded, check again after 500ms
         setTimeout(checkCrispLoaded, 500);
       }
     };
@@ -69,22 +78,25 @@ export default function Support() {
     checkCrispLoaded();
   }, []);
 
+  // Set user email in Crisp when user is signed in and Crisp is loaded
   useEffect(() => {
     if (isCrispLoaded && isSignedIn && user) {
       window.$crisp.push(["set", "user:email", user.emailAddresses[0]?.emailAddress]);
     }
   }, [isCrispLoaded, isSignedIn, user]);
 
+  // Handle opening the chat
   const handleChatNow = () => {
     if (isCrispLoaded) {
       window.$crisp.push(["do", "chat:open"]);
       setIsChatOpen(true);
 
-      // do styleCrispElements
+      // Style Crisp elements
       styleCrispElements();
     }
   };
 
+  // Function to style Crisp elements
   const styleCrispElements = () => {
     const originalButton = document.querySelector('.cc-157aw');
     const originalContainer = document.querySelector('.cc-1no03');
@@ -95,6 +107,7 @@ export default function Support() {
     const chatFooter = document.querySelector('.cc-1nvun');
     const chatInput = document.querySelector('.cc-1icw9');
     if (originalButton && originalContainer && chat && chatBackground && chatTexts.length > 0 && chatHeader && chatFooter && chatInput) {
+      // Apply styles to Crisp elements
       originalButton.style.setProperty('display', 'none', 'important');
       originalContainer.style.setProperty('width', '100%', 'important');
       originalContainer.style.setProperty('left', '0', 'important');
@@ -117,16 +130,16 @@ export default function Support() {
     }
   };
 
-  //close chat
+  // Function to close chat
   const closeChat = () => {
     window.$crisp.push(["do", "chat:close"]);
     setIsChatOpen(false);
 
-    // do styleCrispElements
+    // Style Crisp elements after closing
     styleCrispElements();
   };
 
-  // when window is resized
+  // Handle window resize
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const handleResize = () => {
