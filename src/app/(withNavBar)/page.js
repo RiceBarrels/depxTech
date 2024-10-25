@@ -14,12 +14,6 @@ import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import Image from "next/image";
 
-export const metadata = {
-  appleWebApp: {
-    title: "DepxTech",
-    statusBarStyle: 'black-translucent'
-  }
-};
 export default async function Page() {
   const { userId } = auth();
   const user = await currentUser();
