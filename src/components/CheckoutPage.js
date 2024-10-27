@@ -25,7 +25,6 @@ import ManageAddress from "@/app/(withBack)/accounts/address/page";
 import { Button } from "./ui/button";
 import { TransitionLinkBackNav } from "./client/pageTransition";
 
-
 const CheckoutPage = ({ amount,cart }) => {
   const stripe = useStripe();
   const elements = useElements();

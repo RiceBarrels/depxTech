@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+Allow: /trade
+Allow: /cart
+Allow: /support
+Allow: /product
+Allow: /products
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+Allow: /shipping
+Allow: /return
+Allow: /warranty
+Allow: /faqs
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /trade/gpu/*/accept
+Disallow: /trade/cpu/*/accept 
+Disallow: /trade/ram/*/accept
+
+Sitemap: https://depxtech.com/sitemap.xml

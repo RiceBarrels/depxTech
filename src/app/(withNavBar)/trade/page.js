@@ -18,6 +18,13 @@ import {
 import { IoIosArrowForward } from "react-icons/io";
 import Support from "@/app/(withNavBar)/support/page";
 
+// head for this page 
+export const metadata = {
+    title: 'Trade',
+    description: 'Trade your Trash Tech for Cash, Free Shipping, and a Direct Deposit, in just 3 minutes.',
+    index: true,
+}
+
 export default function Trade() {
   const tradableItems = (
     <div className="flex justify-center items-center flex-col m-2 md:flex-row md:flex-wrap md:justify-start">
