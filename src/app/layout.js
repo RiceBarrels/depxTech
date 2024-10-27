@@ -20,13 +20,6 @@ export const metadata = {
   description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection."
 };
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: "no",
-}
-
 export default function RootLayout({ children, nav }) {
   
   return (
@@ -45,6 +38,8 @@ export default function RootLayout({ children, nav }) {
           type="image/<generated>"
           sizes="<generated>"
         />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="favicon" href="/apple-icon?<generated>" />
       </head>
       <body className={inter.className}>
