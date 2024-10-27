@@ -27,7 +27,7 @@ export default async function Accept({ params, searchParams }) {
             {/* check if email is the same as user email */}
             {email === user.emailAddresses[0].emailAddress ? (
                 <div>
-                    <h1>Let's get you started</h1>
+                    <h1>Let&apos;s get you started</h1>
                     <Link href={"/trade/gpu/" + params.gpu + "/" + params.series + "/" + params.model + "/" + params.brand + "/" + params.condition + "/" + params.placeHolder + "/accept/start"}>Start</Link>
                 </div>
             ) : (
