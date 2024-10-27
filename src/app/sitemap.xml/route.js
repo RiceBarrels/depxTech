@@ -26,9 +26,7 @@ export async function GET() {
         <priority>0.5</priority>
       </url>
       
-      <!-- Add more static URLs as needed -->
-      
-      <!-- Dynamic Routes Example -->
+      <!-- Start of Dynamic Routes -->
       ${ products?.map((product) => `
         <url>
           <loc>https://depxtech.com/product/${product.id}</loc>
@@ -37,6 +35,7 @@ export async function GET() {
           <priority>0.7</priority>
         </url>
       `).join('')}
+      <!-- End of Dynamic Routes -->
     </urlset>`
 
   return new Response(sitemap, {

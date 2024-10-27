@@ -17,7 +17,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "DepxTech Custom PCs",
-  description: "Unleash true power with cheaper money. Whether you’re a gamer, creator, or professional, we engineer your system to perfection."
+  description: "Unleash true power with cheaper money. Whether you're a gamer, creator, or professional, we engineer your system to perfection."
+};
+
+// Moved viewport config to separate export per Next.js recommendation
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1
 };
 
 export default function RootLayout({ children, nav }) {
@@ -38,8 +45,6 @@ export default function RootLayout({ children, nav }) {
           type="image/<generated>"
           sizes="<generated>"
         />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1">
-        <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="favicon" href="/apple-icon?<generated>" />
       </head>
       <body className={inter.className}>
