@@ -2,7 +2,7 @@
 import "@/components/backNav.css"
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter, usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from "framer-motion";
 
 export default function BackNav(){
@@ -10,12 +10,16 @@ export default function BackNav(){
     const pathname= usePathname();
     const [pageName, setPageName] = useState('');
 
-    useEffect(() => {
+    const handleNavigation = useCallback(() => {
         // Set the page name based on the current route
         const path = pathname;
         const name = path.split('/').pop();
         setPageName(name.charAt(0).toUpperCase() + name.slice(1));
-    }, [router.pathname]);
+    }, [pathname]);
+
+    useEffect(() => {
+        handleNavigation();
+    }, [handleNavigation]);
 
     return (
         <div className="background-default">

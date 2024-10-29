@@ -8,6 +8,7 @@ import SparklesText from "@/components/magicui/sparkles-text";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
 import ShineBorder from "@/components/ui/shine-border";
 import Marquee from "@/components/magicui/marquee";
+import Image from 'next/image';
 
 export default async function HomeClient() {
   const words = ["Performance", "Cute", "Lovely", "Modern"];
@@ -57,7 +58,12 @@ export default async function HomeClient() {
             Build Your PCs On:
           </h3>
           <Marquee className="[--duration:20s] w-full">
-            <figure className="text-color mx-2"><img alt="intel" className="h-8" src="./img/intel.png"/></figure>
+            <figure className="text-color mx-2"><Image 
+              src="/img/intel.png"
+              alt="Intel"
+              width={32}
+              height={32}
+            /></figure>
             <figure className="text-color mx-2"><img alt="windows 11" className="h-8" src="./img/windows 11.png"/></figure>
             <figure className="text-color mx-2"><img alt="nvida" className="h-8" src="./img/nvidia.png"/></figure>
             <figure className="text-color mx-2"><img alt="gigabyte" className="h-8" src="./img/gigabyte.png"/></figure>

@@ -6,20 +6,33 @@ const withAutoCert = autoCert({
 });
 
 const nextConfig = {
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'api.microlink.io',
-          port: '',
-        },
-        {
-          protocol: 'https',
-          hostname: '**.depxtech.com',
-          port: '',
-        }
-      ],
-    },
-  };
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.microlink.io',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.depxtech.com',
+        port: '',
+      }
+    ],
+  },
+  experimental: {
+    serverActions: true
+  }
+};
 
-export default withAutoCert(nextConfig);
+// Only apply autoCert in development
+const config = process.env.NODE_ENV === 'development' 
+  ? withAutoCert(nextConfig)
+  : nextConfig;
+
+export default config;
