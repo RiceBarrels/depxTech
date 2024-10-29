@@ -1,6 +1,7 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Input from '@/components/ui/input'
 
 // head for this page 
 export const metadata = {
@@ -28,7 +29,7 @@ export default async function Accept({ params, searchParams }) {
             {email === user.emailAddresses[0].emailAddress ? (
                 <div>
                     <h1>Let&apos;s get you started</h1>
-                    <Link href={"/trade/gpu/" + params.gpu + "/" + params.series + "/" + params.model + "/" + params.brand + "/" + params.condition + "/" + params.placeHolder + "/accept/start"}>Start</Link>
+                    
                 </div>
             ) : (
                 <div>

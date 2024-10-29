@@ -1,12 +1,13 @@
-
-export default async function getData(fetchURL){
-  const res = await fetch(fetchURL);
+export default async function getData(fetchURL) {
+  const res = await fetch(fetchURL, {
+    next: {
+      revalidate: 3600 // Cache for 1 hour
+    }
+  });
   
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
     throw new Error('Failed to fetch data')
   }
   
   return res.json()
-
 }

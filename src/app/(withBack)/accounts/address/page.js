@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSession, useUser } from '@clerk/nextjs';
 import { createClient } from '@supabase/supabase-js';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,7 @@ import { MdOutlineWrongLocation } from 'react-icons/md';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useLoadScript, Autocomplete } from '@react-google-maps/api';
 
 export default function ManageAddress({className=""}) {
     const [loading, setLoading] = useState(true);
@@ -63,6 +64,51 @@ export default function ManageAddress({className=""}) {
 
     const client = createClerkSupabaseClient();
 
+    // Load Google Places script
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        libraries: ['places'],
+    });
+
+    // Handle place selection
+    const handlePlaceSelect = useCallback((place) => {
+        if (!place.geometry) return;
+
+        let address = {};
+        for (const component of place.address_components) {
+            const type = component.types[0];
+            switch (type) {
+                case 'street_number':
+                    address.street_number = component.long_name;
+                    break;
+                case 'route':
+                    address.route = component.long_name;
+                    break;
+                case 'locality':
+                    address.city = component.long_name;
+                    break;
+                case 'administrative_area_level_1':
+                    address.state = component.short_name;
+                    break;
+                case 'postal_code':
+                    address.postal_code = component.long_name;
+                    break;
+                case 'country':
+                    address.country = component.long_name;
+                    break;
+            }
+        }
+
+        setAddressFields(prev => ({
+            ...prev,
+            line1: `${address.street_number || ''} ${address.route || ''}`.trim(),
+            city: address.city || '',
+            state: address.state || '',
+            postal_code: address.postal_code || '',
+            country: address.country || '',
+        }));
+    }, []);
+
     // Load addresses for the logged-in user
     useEffect(() => {
         if (!user) return;
@@ -102,20 +148,25 @@ export default function ManageAddress({className=""}) {
     async function addAddress(e) {
         e.preventDefault();
 
-        // Validate required fields
+        // Validation check
         if (!addressFields.first_name || !addressFields.last_name || !addressFields.phone_number || !addressFields.city || !addressFields.state || !addressFields.postal_code || !addressFields.country || !addressFields.line1) {
             alert('Please fill in all required fields.');
             return;
         }
 
-        const updatedAddresses = [...addresses, addressFields]; // Store new address as an object
+        const updatedAddresses = [...addresses, addressFields];
 
+        // Update database
         await client
             .from('userdata')
             .update({ address: updatedAddresses })
             .eq('user_id', user.id);
 
+        // Update both addresses and selectedAddress states
         setAddresses(updatedAddresses);
+        setSelectedAddress(updatedAddresses[updatedAddresses.length - 1]); // Set the newly added address as selected
+
+        // Reset form fields
         setAddressFields({
             first_name: '',
             last_name: '',
@@ -126,9 +177,10 @@ export default function ManageAddress({className=""}) {
             line2: '',
             postal_code: '',
             state: ''
-        }); // Clear the form after submission
-        console.log("Successfully updated");
-        console.log(updatedAddresses)
+        });
+
+        // Close drawer
+        document.querySelector('[data-drawer-close]').click();
     }
 
     // Handle form input changes
@@ -347,10 +399,10 @@ export default function ManageAddress({className=""}) {
                                     />
                                 </div>
                             </div>
-                            <DrawerClose className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
+                            <div className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
                                 <Separator />
                                 <Button type="submit" className="button my-2 w-full">Save</Button>
-                            </DrawerClose>
+                            </div>
                         </form>
                     </div>
                 </DrawerContent>
@@ -515,10 +567,10 @@ export default function ManageAddress({className=""}) {
                                                     />
                                                 </div>
                                             </div>
-                                            <DrawerClose className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
+                                            <div className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
                                                 <Separator />
                                                 <Button type="submit" className="button my-2 w-full" onClick={() => setTimeout(()=>deleteAddress(index),250)}>Save</Button>
-                                            </DrawerClose>
+                                            </div>
                                         </form>
                                     </div>
                                 </DrawerContent>
@@ -669,10 +721,10 @@ export default function ManageAddress({className=""}) {
                                     />
                                 </div>
                             </div>
-                            <DrawerClose className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
+                            <div className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
                                 <Separator />
                                 <Button type="submit" className="button my-2 w-full">Save</Button>
-                            </DrawerClose>
+                            </div>
                         </form>
                     </div>
                 </DrawerContent>

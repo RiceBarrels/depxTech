@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import Image from "next/image";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { SiAmericanexpress, SiApplepay, SiDiscover, SiGooglepay, SiKlarna, SiMastercard, SiVisa } from "react-icons/si";
+import { SiDiscover, SiGooglepay, SiKlarna, SiMastercard, SiVisa } from "react-icons/si";
 import { FaApplePay } from 'react-icons/fa6';
 import { TransitionLinkBackNav } from '@/components/client/pageTransition';
 import { Skeleton } from '@/components/ui/skeleton';

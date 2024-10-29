@@ -31,10 +31,14 @@ export const EmailTemplate = ({ firstName, gpuDetails, to }) => (
         </ul>
       </div>
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <p>Hello {firstName} ({to}),</p>
         <p>Please click the button below to accept the Trade In request.</p>
-        <a href={`http://localhost:3000/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.modelId}/${gpuDetails.brand}/${gpuDetails.condition}/${gpuDetails.placeHolder}/accept?email=${to}`}>
+        <a href={`https://depxtech.com/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.modelId}/${gpuDetails.brand}/${gpuDetails.condition}/${gpuDetails.placeHolder}/accept?email=${to}`}>
             <button style={{ backgroundColor: '#2563eb', color: '#fff', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', marginTop: '20px', fontWeight: 600, fontSize: '18px' }}>Accept Trade In</button>
         </a>
+        <p>If you have any questions, please contact us at <a href="mailto:support@depxtech.com">support@depxtech.com</a>.</p>
+        <small>If you are unable to click the button, please copy and paste the link below into your browser:</small><br/>
+        <small>{`https://depxtech.com/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.modelId}/${gpuDetails.brand}/${gpuDetails.condition}/${gpuDetails.placeHolder}/accept?email=${to}`}</small>
       </div>
     </div>
 );

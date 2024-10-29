@@ -102,7 +102,16 @@ export default async function Recommends() {  // Default value for items
                                             <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                         ) : (
                                             <div className="relative w-[100%] pb-[100%]">
-                                                <Image src={"https://src.depxtech.com/"+images[0]} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" />
+                                                <Image 
+                                                    src={`https://src.depxtech.com/${images[0]}`} 
+                                                    width={500} 
+                                                    height={500} 
+                                                    alt={item.id}
+                                                    className="absolute top-0 left-0 w-full h-full object-contain rounded-xl"
+                                                    loading="lazy"
+                                                    placeholder="blur"
+                                                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+                                                />
                                             </div>
                                         )}
                                         <div className="space-y-1 p-1 w-full">
@@ -122,7 +131,7 @@ export default async function Recommends() {  // Default value for items
                                             <DrawerTitle>{item.title}</DrawerTitle>
                                             <DrawerDescription>Let me see this item in the database...</DrawerDescription>
                                         </div>
-                                        <Link href={"./products/" + item.id} className="flex justify-center items-center"><Maximize className="active:bg-[#88888850]" size={24} /></Link>
+                                        <Link href={"./products/" + item.id} prefetch={true} className="flex justify-center items-center"><Maximize className="active:bg-[#88888850]" size={24} /></Link>
                                     </DrawerHeader>
 
                                     <div className="flex-1 flex-col flex overflow-y-scroll">

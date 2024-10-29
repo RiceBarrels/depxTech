@@ -1,8 +1,9 @@
 "use client"
 import { motion } from "framer-motion"
-export default function DepxtechLoading(){
+
+export default function DepxtechLoading() {
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="fixed inset-0 flex justify-center items-center bg-[var(--background-start-rgb)]">
             <motion.div
                 animate={{
                     y: [0, -20, 0],
