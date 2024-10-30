@@ -18,7 +18,8 @@ import DepxTechLoading from "@/components/ui/depxtechLoading";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoMdCopy } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
-
+import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineUserAdd } from "react-icons/ai";
 const CopyModal = ({ userId, isOpen, onClose }) => {
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -229,22 +230,35 @@ export default function Accounts() {
       variants={containerVariants}
       className="overflow-hidden"
     >
-      <motion.div 
-        variants={profileCardVariants}
+      {userId ? (
+        <motion.div 
+          variants={profileCardVariants}
         className="flex p-4 my-8 m-2 rounded-2xl background-card justify-center items-center"
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
       >
-        <motion.img 
-          className="rounded-full"
-          width={64} 
-          src={userImage}
-          alt={`${userName}'s avatar`}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-          whileHover={{ scale: 1.1, rotate: 10 }}
-        />
+        <motion.div className="w-16 h-16 flex items-center justify-center">
+          {userImage ? (
+            <motion.img 
+              className="rounded-full w-16 h-16 object-cover"
+              src={userImage}
+              alt={`${userName}'s avatar`}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+              whileHover={{ scale: 1.1, rotate: 10 }}
+            />
+          ) : (
+            <motion.div
+              initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+            whileHover={{ scale: 1.1, rotate: 10 }}
+          >
+              <FaUserCircle size={64} className="opacity-50" />
+            </motion.div>
+          )}
+        </motion.div>
         &nbsp;&nbsp;
         <div className="flex-1">
           <h3 className="">{userName}</h3>
@@ -265,7 +279,61 @@ export default function Accounts() {
             <TbSettings2 className="rotate-90" size={24}/>
           </TransitionLinkBackNav>
         }
-      </motion.div>
+        </motion.div>
+      ) : (
+          <TransitionLinkBackNav href="sign-in?redirect_url=/accounts" className="w-full py-[12px] px-1 card-feedback rounded-xl">
+
+<motion.div 
+          variants={profileCardVariants}
+        className="flex p-4 my-8 m-2 rounded-2xl background-card justify-center items-center"
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <motion.div className="w-16 h-16 flex items-center justify-center">
+          {userImage ? (
+            <motion.img 
+              className="rounded-full w-16 h-16 object-cover"
+              src={userImage}
+              alt={`${userName}'s avatar`}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+              whileHover={{ scale: 1.1, rotate: 10 }}
+            />
+          ) : (
+            <motion.div
+              initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+            whileHover={{ scale: 1.1, rotate: 10 }}
+          >
+              <FaUserCircle size={64} className="opacity-50" />
+            </motion.div>
+          )}
+        </motion.div>
+        &nbsp;&nbsp;
+        <div className="flex-1">
+          <h3 className="">{userName}</h3>
+          {userId && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setIsModalOpen(true)}
+              className="text-sm opacity-60 hover:opacity-100 transition-opacity"
+            >
+              ID: {userId.slice(0, 8)}...
+            </motion.button>
+          )}
+        </div>
+        &nbsp;&nbsp;
+        {user &&
+          <TransitionLinkBackNav href="profile" >
+            <TbSettings2 className="rotate-90" size={24}/>
+          </TransitionLinkBackNav>
+        }
+        </motion.div>
+          </TransitionLinkBackNav>
+      )}
 
       <CopyModal 
         userId={userId}
