@@ -26,28 +26,28 @@ export default function BottomNav() {
 
   return (
     <nav className="p-1 pb-5 z-[1001]">
-      <space/>
+      <div className="flex-1"/>
 
       <Link href={"/"} className={pathname == "/" ? "active" : ""} onClick={playPopSound}>
         {pathname == "/" || pathname.includes("/create") ? <GoHomeFill/> : <GoHome/>}
         <span>Home</span>
       </Link>
 
-      <space/>
+      <div className="flex-1"/>
 
       <Link href={"/trade"} className={pathname.includes("/trade") ? "active" : ""} onClick={playPopSound}>
         {pathname.includes("/trade") ? <RiExchangeFill/> : <RiExchangeLine/>}
         <span>Trade In</span>
       </Link>
 
-      <space/>
+      <div className="flex-1"/>
 
       <Link href="/accounts" className={pathname.includes("/accounts") ? "active" : ""} onClick={playPopSound}>
         {pathname.includes("/accounts") ? <RiAccountCircleFill/> : <RiAccountCircleLine/>}
         <span>Accounts</span>
       </Link>
 
-      <space/>
+      <div className="flex-1"/>
     </nav>
   );
 }

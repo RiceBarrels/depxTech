@@ -1,9 +1,14 @@
+import { suppressHydrationWarnings } from '@/lib/suppressHydrationWarnings';
+import ClientOnly from '@/components/client/ClientOnly';
 import BottomNav from "@/components/ui/bottomNav";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 import Footer from "@/components/server/footer";
 import Link from "next/link";
 import DepxTechLoading from "@/components/ui/depxtechLoading";
+
+// Call the suppression function at the top level
+suppressHydrationWarnings();
 
 export const metadata = {
   title: "DepxTech Custom PCs & Sell PC components",
@@ -21,12 +26,14 @@ export default function withNavBar({children, loading}){
                 <TransitionLinkBackNav href="/cart"><MdOutlineShoppingBag size={24} /></TransitionLinkBackNav>
             </div>
             <div id="mainContant" className="flex align-center justify-center background-default">
-                <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)] lg:max-w-[1200px]">
-                    <div className="min-h-[calc(100dvh-48.9px-1.5rem-3rem)]">
-                        {children}
+                <ClientOnly>
+                    <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)] lg:max-w-[1200px]">
+                        <div className="min-h-[calc(100dvh-48.9px-1.5rem-3rem)]">
+                            {children}
+                        </div>
+                        <Footer/>
                     </div>
-                    <Footer/>
-                </div>
+                </ClientOnly>
             </div>
             <BottomNav/>
         </>

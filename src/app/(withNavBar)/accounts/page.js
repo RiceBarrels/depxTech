@@ -239,6 +239,7 @@ export default function Accounts() {
           className="rounded-full"
           width={64} 
           src={userImage}
+          alt={`${userName}'s avatar`}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
@@ -276,7 +277,7 @@ export default function Accounts() {
         variants={cardVariants}
         className="background-card rounded-t-2xl rounded-b-md m-2 p-4 flex flex-col font-bold"
       >
-        <space/>
+        <div className="flex-1"/>
         <motion.div
           variants={menuItemVariants}
           whileHover="hover"
@@ -290,7 +291,7 @@ export default function Accounts() {
               <BsJournalText className="mx-2" size={20}/>
             </motion.div>
             <small className="mx-2">My Orders</small>
-            <space/>
+            <div className="flex-1"/>
             <motion.div
               animate={{ x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -302,29 +303,29 @@ export default function Accounts() {
         <TransitionLinkBackNav href="accounts/myReviews" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <FiStar className="mx-2" size={20}/>
           <small className="mx-2">My Reviews</small>
-          <space/>
+          <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>
         <TransitionLinkBackNav href="accounts/address" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <HiOutlineLocationMarker className="mx-2" size={20}/>
           <small className="mx-2">My Address</small>
-          <space/>
+          <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>
         <TransitionLinkBackNav href="accounts/coupons" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCoupon3Line className="mx-2" size={20}/>
           <small className="mx-2">Coupons & Offers</small>
-          <space/>
+          <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>
-        <space/>
+        <div className="flex-1"/>
       </motion.div>
 
       <motion.div 
         variants={cardVariants}
         className="background-card rounded-t-md rounded-b-2xl m-2 p-2 py-4 flex flex-col font-bold"
       >
-        <space/>
+        <div className="flex-1"/>
         <motion.div
           variants={menuItemVariants}
           whileHover="hover"
@@ -338,7 +339,7 @@ export default function Accounts() {
               <GrCircleQuestion className="mx-2" size={20}/>
             </motion.div>
             <small className="mx-2">About Us</small>
-            <space/>
+            <div className="flex-1"/>
             <motion.div
               animate={{ x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -350,16 +351,16 @@ export default function Accounts() {
         <TransitionLinkBackNav href="accounts/version" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <IoMdInformationCircleOutline className="mx-2" size={20}/>
           <small className="mx-2">App Version</small>
-          <space/>
+          <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>
         <TransitionLinkBackNav href="support" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCustomerServiceLine className="mx-2" size={20}/>
           <small className="mx-2">Customer Service</small>
-          <space/>
+          <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>
-        <space/>
+        <div className="flex-1"/>
       </motion.div>
 
       <motion.div 

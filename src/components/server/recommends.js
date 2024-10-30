@@ -185,7 +185,7 @@ export default function Recommends() {
                                     </motion.div>
                                 </DrawerTrigger>
                                 
-                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[1003]">
+                                <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[1003] md:max-w-[1000px] md:mx-auto md:rounded-t-xl">
                                     <motion.div
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
@@ -194,26 +194,51 @@ export default function Recommends() {
                                         className="h-full flex flex-col"
                                     >
                                         <DrawerHeader className="flex">
-                                            <DrawerClose ><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
+                                            <DrawerClose><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
                                             <div className="flex-1">
-                                                <DrawerTitle>{item.title}</DrawerTitle>
-                                                <DrawerDescription>Let me see this item in the database...</DrawerDescription>
+                                                <DrawerTitle className="md:hidden">{item.title}</DrawerTitle>
+                                                <DrawerDescription className="md:hidden">Let me see this item in the database...</DrawerDescription>
                                             </div>
-                                            <Link href={"./products/" + item.id} prefetch={true} className="flex justify-center items-center"><Maximize className="active:bg-[#88888850]" size={24} /></Link>
+                                            <Link href={"./products/" + item.id} prefetch={true} className="flex justify-center items-center">
+                                                <Maximize className="active:bg-[#88888850]" size={24} />
+                                            </Link>
                                         </DrawerHeader>
 
-                                        <div className="flex-1 overflow-y-auto">
-                                            {images.length === 0 ? (
-                                                <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
-                                            ) : (
-                                                <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
-                                                    {images.map((image) => {
-                                                        return <CarouselSlide key={image}><Image src={"https://src.depxtech.com/"+image} width="500" height="500" alt={item.title || 'Product image'} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" placeholder="blur" blurDataURL={generateBlurDataURL()} sizes="100vw" quality={85} /></CarouselSlide>
-                                                    })}
-                                                </Carousel>
-                                            )}
-                                            <div className="space-y-1 p-1 px-4 w-full select-text">
-                                                <h3 className="">{item.title}</h3>
+                                        <div className="flex-1 overflow-y-auto md:flex md:gap-6 md:p-6">
+                                            {/* Left side - Images */}
+                                            <div className="md:w-1/2">
+                                                {images.length === 0 ? (
+                                                    <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
+                                                ) : (
+                                                    <Carousel 
+                                                        slideSize="100%" 
+                                                        height="auto"
+                                                        className="w-full aspect-square" 
+                                                        loop 
+                                                        withIndicators
+                                                    >
+                                                        {images.map((image) => (
+                                                            <CarouselSlide key={image} className="relative aspect-square">
+                                                                <Image 
+                                                                    src={`https://src.depxtech.com/${image}`} 
+                                                                    fill
+                                                                    alt={item.title || 'Product image'} 
+                                                                    className="object-contain rounded-xl" 
+                                                                    placeholder="blur" 
+                                                                    blurDataURL={generateBlurDataURL()} 
+                                                                    sizes="(max-width: 768px) 100vw, 50vw" 
+                                                                    quality={85} 
+                                                                    priority
+                                                                />
+                                                            </CarouselSlide>
+                                                        ))}
+                                                    </Carousel>
+                                                )}
+                                            </div>
+
+                                            {/* Right side - Details */}
+                                            <div className="space-y-4 p-1 px-4 w-full select-text md:w-1/2">
+                                                <h3 className="hidden md:block text-2xl font-bold">{item.title}</h3>
                                                 <div className="text-sm">{item.available} available | {item.solds} sold</div>
                                                 <div className="text-3xl text-right font-extrabold">
                                                     <span className="text-sm align-top">$ </span>
@@ -221,14 +246,16 @@ export default function Recommends() {
                                                     <span className="text-[0px]">.</span>
                                                     <span className="text-sm align-top">{item.price.split('.')[1]}</span>
                                                 </div>
-                                                <h3 className="">Description:</h3>
-                                                <p className="">{item.des}</p>
+                                                <h3 className="font-semibold">Description:</h3>
+                                                <p className="opacity-75">{item.des}</p>
                                             </div>
                                         </div>
 
-                                        <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850]">
+                                        <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850] md:px-6">
                                             <AddItem item={item} images={images}/>
-                                            <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"}><Button className="flex-1 button py-2">Buy Now</Button></TransitionLinkBackNav>
+                                            <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"}>
+                                                <Button className="flex-1 button py-2">Buy Now</Button>
+                                            </TransitionLinkBackNav>
                                         </DrawerFooter>
                                     </motion.div>
                                 </DrawerContent>
