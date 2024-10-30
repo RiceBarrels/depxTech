@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { auth, currentUser } from "@clerk/nextjs/server";
+'use client'
+
+import { useAuth, useUser } from "@clerk/nextjs";
 import { SignOutButton } from "@clerk/nextjs";
 import { TbSettings2 } from "react-icons/tb";
 import { BsJournalText } from "react-icons/bs";
@@ -13,114 +13,380 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { HiOutlineLocationMarker } from "react-icons/hi"
 import Recommends from "@/components/server/recommends";
 import { TransitionLinkBackNav } from "@/components/client/pageTransition";
+import { useState, useEffect } from "react";
+import DepxTechLoading from "@/components/ui/depxtechLoading";
+import { motion, AnimatePresence } from "framer-motion";
+import { IoMdCopy } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
 
-export default async function Accounts() {
-  const { userId } = auth();
-  const user = await currentUser();
-  let userImage;
-  let userName = "Guest";
-  let authUtility = (
+const CopyModal = ({ userId, isOpen, onClose }) => {
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(userId);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="background-card p-6 rounded-2xl max-w-md w-full shadow-lg"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">User ID</h3>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={onClose}
+              >
+                <IoCloseOutline size={24} />
+              </motion.button>
+            </div>
+            
+            <div className="flex items-center gap-2 mb-4">
+              <code className="flex-1 p-3 rounded-lg background-card-secondary overflow-auto">
+                {userId}
+              </code>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleCopy}
+                className="p-2 rounded-lg background-card-secondary"
+              >
+                <IoMdCopy size={20} />
+              </motion.button>
+            </div>
+
+            <AnimatePresence>
+              {copySuccess && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="text-green-500 text-sm text-center"
+                >
+                  Copied to clipboard!
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default function Accounts() {
+  const { userId } = useAuth();
+  const { user, isLoaded } = useUser();
+  const [userImage, setUserImage] = useState(null);
+  const [userName, setUserName] = useState("Guest");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded && user) {
+      if (user.hasImage) {
+        setUserImage(user.imageUrl);
+      }
+      
+      setUserName(user.username || `${user.firstName} ${user.lastName}`);
+    }
+  }, [user, isLoaded]);
+
+  const authUtility = userId ? (
+    <SignOutButton class="w-max button flex-1 mx-4 py-2" redirectUrl="./accounts"/>
+  ) : (
     <>
       <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./sign-in">Sign In</TransitionLinkBackNav>
       <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./sign-up">Sign Up</TransitionLinkBackNav>
     </>
   );
 
-  if (userId){
-    if(user.hasImage == true){
-      userImage = user.imageUrl;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.1
+      }
     }
+  };
 
-    if (user.username == null){
-      userName = `${user.firstName} ${user.lastName}`;
-    } else {
-      userName = user.username;
+  const itemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 30,
+      scale: 0.9
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
     }
+  };
 
-    authUtility = (
-      <>
-        <SignOutButton class="w-max button flex-1 mx-4 py-2" redirectUrl="./accounts"/>
-      </>
-    );
+  const profileCardVariants = {
+    hidden: { 
+      opacity: 0,
+      y: -50,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 20
+      }
+    }
+  };
+
+  const menuItemVariants = {
+    hidden: { x: -20, opacity: 0 },
+    visible: { 
+      x: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    },
+    hover: { 
+      scale: 1.02,
+      x: 10,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    },
+    tap: { 
+      scale: 0.95,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0,
+      scale: 0.8,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+        staggerChildren: 0.07,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  if (!isLoaded) {
+    return <div className="h-[calc(100dvh-45px)] flex justify-center items-center">
+      <DepxTechLoading />
+    </div>;
   }
+
   return (
-    <>
-      <div class="flex p-4 my-8 m-2 rounded-2xl background-card justify-center items-center">
-        <img class="rounded-full" width={64} src={userImage}/>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="overflow-hidden"
+    >
+      <motion.div 
+        variants={profileCardVariants}
+        className="flex p-4 my-8 m-2 rounded-2xl background-card justify-center items-center"
+        whileHover={{ scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <motion.img 
+          className="rounded-full"
+          width={64} 
+          src={userImage}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+          whileHover={{ scale: 1.1, rotate: 10 }}
+        />
         &nbsp;&nbsp;
-        <div class="flex-1">
-          <h3 class="">{userName}</h3>
-          {user && <div class="text-xs flex">User ID:&nbsp;<span class="truncate flex-1">{userId}</span></div>}
-          {!user && <div class="text-xs flex"><TransitionLinkBackNav className="underline" href="./sign-in">Sign In</TransitionLinkBackNav>&nbsp;or&nbsp;<TransitionLinkBackNav className="underline" href="./sign-in">Register</TransitionLinkBackNav> </div>}
+        <div className="flex-1">
+          <h3 className="">{userName}</h3>
+          {userId && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setIsModalOpen(true)}
+              className="text-sm opacity-60 hover:opacity-100 transition-opacity"
+            >
+              ID: {userId.slice(0, 8)}...
+            </motion.button>
+          )}
         </div>
         &nbsp;&nbsp;
         {user &&
           <TransitionLinkBackNav href="profile" >
-            <TbSettings2 class="rotate-90" size={24}/>
+            <TbSettings2 className="rotate-90" size={24}/>
           </TransitionLinkBackNav>
         }
-      </div>
+      </motion.div>
 
-      <div className="background-card rounded-t-2xl rounded-b-md m-2 p-4 flex flex-col font-bold">
-        <space/>
-        <TransitionLinkBackNav href="accounts/orders" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <BsJournalText class="mx-2" size={20}/>
-          <small class="mx-2 ">My Orders</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="accounts/myReviews" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <FiStar class="mx-2" size={20}/>
-          <small class="mx-2">My Reviews</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="accounts/address" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <HiOutlineLocationMarker class="mx-2" size={20}/>
-          <small class="mx-2">My Address</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="accounts/coupons" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <RiCoupon3Line class="mx-2" size={20}/>
-          <small class="mx-2">Coupons & Offers</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <space/>
-      </div>
+      <CopyModal 
+        userId={userId}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
-      <div className="background-card rounded-t-md rounded-b-2xl m-2 p-2 py-4 flex flex-col font-bold">
+      <motion.div 
+        variants={cardVariants}
+        className="background-card rounded-t-2xl rounded-b-md m-2 p-4 flex flex-col font-bold"
+      >
         <space/>
-        <TransitionLinkBackNav href="accounts/about" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <GrCircleQuestion class="mx-2" size={20}/>
-          <small class="mx-2">About Us</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="accounts/version" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <IoMdInformationCircleOutline class="mx-2" size={20}/>
-          <small class="mx-2">App Version</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <TransitionLinkBackNav href="support" class="flex w-full py-[12px] px-1 card-feedback rounded-xl">
-          <RiCustomerServiceLine class="mx-2" size={20}/>
-          <small class="mx-2">Customer Service</small>
-          <space/>
-          <IoIosArrowForward class="mx-1" size={14} />
-        </TransitionLinkBackNav>
-        <space/>
-      </div>
-
-        <div
-            className="flex"
+        <motion.div
+          variants={menuItemVariants}
+          whileHover="hover"
+          whileTap="tap"
         >
-            {authUtility}
-        </div>
+          <TransitionLinkBackNav href="accounts/orders" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+            <motion.div
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.4 }}
+            >
+              <BsJournalText className="mx-2" size={20}/>
+            </motion.div>
+            <small className="mx-2">My Orders</small>
+            <space/>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <IoIosArrowForward className="mx-1" size={14} />
+            </motion.div>
+          </TransitionLinkBackNav>
+        </motion.div>
+        <TransitionLinkBackNav href="accounts/myReviews" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <FiStar className="mx-2" size={20}/>
+          <small className="mx-2">My Reviews</small>
+          <space/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/address" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <HiOutlineLocationMarker className="mx-2" size={20}/>
+          <small className="mx-2">My Address</small>
+          <space/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/coupons" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <RiCoupon3Line className="mx-2" size={20}/>
+          <small className="mx-2">Coupons & Offers</small>
+          <space/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <space/>
+      </motion.div>
 
-      <Recommends />
-    </>
+      <motion.div 
+        variants={cardVariants}
+        className="background-card rounded-t-md rounded-b-2xl m-2 p-2 py-4 flex flex-col font-bold"
+      >
+        <space/>
+        <motion.div
+          variants={menuItemVariants}
+          whileHover="hover"
+          whileTap="tap"
+        >
+          <TransitionLinkBackNav href="accounts/about" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+            <motion.div
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.4 }}
+            >
+              <GrCircleQuestion className="mx-2" size={20}/>
+            </motion.div>
+            <small className="mx-2">About Us</small>
+            <space/>
+            <motion.div
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <IoIosArrowForward className="mx-1" size={14} />
+            </motion.div>
+          </TransitionLinkBackNav>
+        </motion.div>
+        <TransitionLinkBackNav href="accounts/version" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <IoMdInformationCircleOutline className="mx-2" size={20}/>
+          <small className="mx-2">App Version</small>
+          <space/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="support" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <RiCustomerServiceLine className="mx-2" size={20}/>
+          <small className="mx-2">Customer Service</small>
+          <space/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <space/>
+      </motion.div>
+
+      <motion.div 
+        variants={itemVariants}
+        className="flex"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        {authUtility}
+      </motion.div>
+
+      <motion.div 
+        variants={itemVariants}
+        whileInView={{ 
+          opacity: 1, 
+          y: 0,
+          transition: { 
+            type: "spring",
+            stiffness: 100,
+            damping: 12
+          }
+        }}
+        viewport={{ once: true }}
+      >
+        <Recommends />
+      </motion.div>
+    </motion.div>
   );
 }
 

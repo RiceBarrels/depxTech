@@ -317,7 +317,7 @@ export default function Trade() {
           <DrawerTrigger asChild>
             <button className="button w-[95%] h-14 text-lg bg-gradient-to-r from-blue-500 to-green-500 hover:opacity-90 transition-opacity">Trade In</button>
           </DrawerTrigger>
-          <DrawerContent className="h-[90dvh] bg-gradient-to-b from-black/50 to-black/30 backdrop-blur-md border-t-2 border-blue-500/20">
+          <DrawerContent className="h-[90dvh] border-t-2 border-blue-500/20">
             <DrawerHeader className="border-b border-[#88888820] px-6">
               <DrawerTitle className="text-3xl font-bold">
                 <span className="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
