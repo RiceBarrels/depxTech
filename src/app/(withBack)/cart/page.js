@@ -10,7 +10,116 @@ import { SiDiscover, SiGooglepay, SiKlarna, SiMastercard, SiVisa } from "react-i
 import { FaApplePay } from 'react-icons/fa6';
 import { TransitionLinkBackNav } from '@/components/client/pageTransition';
 import { Skeleton } from '@/components/ui/skeleton';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+
+// Create a new CartItem component
+const CartItem = ({ item, cartItem, index, editing, onDelete, onUpdateQuantity }) => {
+    const x = useMotionValue(0);
+    const opacity = useTransform(x, [-100, 0, 100], [0.3, 1, 0.3]);
+    const background = useTransform(
+        x,
+        [-100, 0, 100],
+        ['rgba(255, 0, 0, 0.2)', 'rgba(255, 255, 255, 0)', 'rgba(255, 0, 0, 0.2)']
+    );
+
+    const maxQuantity = item[0].available || 0;
+    const currentQuantity = parseInt(cartItem.quantity);
+    const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
+    const selfPrice = Math.round(item[0].price * currentQuantity * 100) / 100;
+
+    return (
+        <motion.div 
+            key={cartItem.itemId}
+            className='flex'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+                delay: index * 0.1
+            }}
+        >
+            <motion.div
+                className='flex justify-center items-center cursor-pointer'
+                animate={{ opacity: editing ? 1 : 0, width: editing ? "48px" : 0 }}
+                onClick={() => onDelete(cartItem.itemId)}
+                whileHover={{ scale: 1.1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20
+                }}
+            >
+                <motion.div 
+                    whileHover={{ color: "red" }}
+                    className="text-2xl"
+                >
+                    ×
+                </motion.div>
+            </motion.div>
+            <motion.div 
+                className="flex flex-1 items-center mb-4 gap-x-3 background-card p-2 rounded-2xl relative"
+                style={{ x, opacity, background }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.7}
+                onDragEnd={(event, info) => {
+                    if (Math.abs(info.offset.x) > 100) {
+                        onDelete(cartItem.itemId);
+                    }
+                }}
+            >
+                <Image
+                    src={`https://src.depxtech.com/${images[0]}`}
+                    width="84"
+                    height="84"
+                    alt={item[0].id}
+                    className="w-24 h-24 object-contain rounded-xl bg-[#77777720]"
+                />
+                <div className="flex flex-1 flex-col">
+                    <h3 className="text-ellipsis line-clamp-2 whitespace-normal">
+                        {item[0].title}
+                    </h3>
+                    <div className='flex flex-row items-center'>
+                        <div className="text-2xl text-left font-extrabold flex-1">
+                            <span className="text-sm">$ </span>
+                            <span className='align-bottom'>{`${selfPrice}`.split('.')[0]}</span>
+                            <span className="text-[0px]">.</span>
+                            <span className="text-sm">{`${selfPrice}`.split('.')[1] || "00"}</span>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            <motion.button
+                                whileHover={{ scale: currentQuantity > 1 ? 1.1 : 1 }}
+                                whileTap={{ scale: currentQuantity > 1 ? 0.9 : 1 }}
+                                onClick={() => onUpdateQuantity(cartItem.itemId, Math.max(1, currentQuantity - 1))}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                    currentQuantity > 1 ? 'bg-[#88888850]' : 'bg-[#88888850] opacity-50 cursor-not-allowed'
+                                }`}
+                                disabled={currentQuantity <= 1}
+                            >
+                                -
+                            </motion.button>
+                            <span className="w-8 text-center">{currentQuantity}</span>
+                            <motion.button
+                                whileHover={{ scale: currentQuantity < maxQuantity ? 1.1 : 1 }}
+                                whileTap={{ scale: currentQuantity < maxQuantity ? 0.9 : 1 }}
+                                onClick={() => onUpdateQuantity(cartItem.itemId, Math.min(maxQuantity, currentQuantity + 1))}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                                    currentQuantity < maxQuantity ? 'bg-[#88888850]' : 'bg-[#88888850] opacity-50 cursor-not-allowed'
+                                }`}
+                                disabled={currentQuantity >= maxQuantity}
+                            >
+                                +
+                            </motion.button>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </motion.div>
+    );
+};
 
 export default function Home() {
     const [cart, setCart] = useState([]);
@@ -19,6 +128,7 @@ export default function Home() {
     const [cartItems, setCartItems] = useState([]); // State to store the rendered cart items
     const [editing, setEditing] = useState(false);
     const [firstTime, setFirstTime] = useState(true);
+    const [itemsData, setItemsData] = useState([]); // Add this state
     const { user } = useUser();
     const { session } = useSession();
     const { isSignedIn } = useAuth();
@@ -68,81 +178,89 @@ export default function Home() {
     }, [user]);
 
     useEffect(() => {
-        if (!cart.length) return; // Don't proceed if the cart is empty
+        if (!cart.length) return;
 
         async function loadAmountAndCartItems() {
-            setLoading(true); // Start loading while fetching items
+            setLoading(true);
             let total = 0;
 
-            const itemPromises = cart.map(cartItem =>
-                fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`).then(response => response.json())
-            );
-
-            const items = await Promise.all(itemPromises); // Wait for all item requests to resolve
-
-            const renderedCartItems = items.map((item, index) => {
-                const cartItem = cart[index];
-                const images = item[0].imgs ? JSON.parse(item[0].imgs) : [];
-                const selfPrice = Math.round(item[0].price * parseInt(cartItem.quantity) * 100) / 100;
-                total += selfPrice;
-
-                return (
-                    <motion.div 
-                        key={index} 
-                        className='flex'
-                        initial={{ transform: firstTime ? 'scale(0.5)' : 'scale(1)' }}
-                        animate={{ transform: 'scale(1)' }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 20
-                        }}
-                    >
-                        <motion.div
-                            className='flex justify-center items-center'
-                            animate={{ opacity: editing ? 1 : 0, width: editing ? "48px" : 0 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 260,
-                                damping: 20
-                            }}
-                        >
-                            X
-                        </motion.div>
-                        <div className="flex flex-1 items-center mb-4 gap-x-3 background-card p-2 rounded-2xl">
-                            <Image
-                                src={`https://src.depxtech.com/${images[0]}`}
-                                width="84"
-                                height="84"
-                                alt={item[0].id}
-                                className="w-24 h-24 object-contain rounded-xl bg-[#77777720]"
-                            />
-                            <div className="flex flex-1 flex-col">
-                                <h3 className="text-ellipsis line-clamp-2 whitespace-normal">
-                                    {item[0].title}
-                                </h3>
-                                <div className='flex flex-row'>
-                                    <div className="text-2xl text-left font-extrabold flex-1">
-                                        <span className="text-sm">$ </span>
-                                        <span className='align-bottom'>{`${selfPrice}`.split('.')[0]}</span>
-                                        <span className="text-[0px]">.</span>
-                                        <span className="text-sm">{`${selfPrice}`.split('.')[1] || "00"}</span>
-                                    </div>
-                                    <div className='align-bottom'>x{cartItem.quantity}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+            try {
+                const itemPromises = cart.map(cartItem =>
+                    fetch(`https://api.depxtech.com/read?filter_id=${cartItem.itemId}`).then(response => response.json())
                 );
-            });
 
-            setTotalAmount(Math.round(total * 100) / 100);
-            setCartItems(renderedCartItems); // Store the rendered items in state
-            setLoading(false); // Stop loading
+                const items = await Promise.all(itemPromises);
+                setItemsData(items);
+
+                const renderedCartItems = items.map((item, index) => {
+                    if (!item || !item[0]) return null;
+                    
+                    const cartItem = cart[index];
+                    total += Math.round(item[0].price * parseInt(cartItem.quantity) * 100) / 100;
+
+                    return (
+                        <CartItem
+                            key={cartItem.itemId}
+                            item={item}
+                            cartItem={cartItem}
+                            index={index}
+                            editing={editing}
+                            onDelete={handleDeleteItem}
+                            onUpdateQuantity={handleUpdateQuantity}
+                        />
+                    );
+                }).filter(Boolean);
+
+                setTotalAmount(Math.round(total * 100) / 100);
+                setCartItems(renderedCartItems);
+                setLoading(false);
+                setFirstTime(false);
+            } catch (error) {
+                console.error('Error loading cart items:', error);
+                setLoading(false);
+            }
         }
 
         loadAmountAndCartItems();
-    }, [cart, editing, firstTime]);    
+    }, [cart, editing]);
+
+    const handleDeleteItem = async (itemId) => {
+        const updatedCart = cart.filter(item => item.itemId !== itemId);
+        
+        const { error } = await client
+            .from('userdata')
+            .update({ cart: updatedCart })
+            .eq('user_id', user.id);
+
+        if (!error) {
+            setCart(updatedCart);
+        }
+    };
+
+    const handleUpdateQuantity = async (itemId, newQuantity) => {
+        const itemData = itemsData.find(item => item[0].id === itemId);
+        const maxQuantity = itemData?.[0]?.available || 0; // Changed to use item.available
+        
+        // Ensure newQuantity is within bounds
+        newQuantity = Math.max(1, Math.min(maxQuantity, newQuantity));
+
+        const updatedCart = cart.map(item => {
+            if (item.itemId === itemId) {
+                return { ...item, quantity: newQuantity.toString() };
+            }
+            return item;
+        });
+
+        const { error } = await client
+            .from('userdata')
+            .update({ cart: updatedCart })
+            .eq('user_id', user.id);
+
+        if (!error) {
+            setCart(updatedCart);
+        }
+    };
+
     if (!isSignedIn) {
         return (
             <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
@@ -164,7 +282,9 @@ export default function Home() {
                     <Button variant="link" onClick={() => setEditing(!editing)}>Edit</Button>
                     </div>
                     <div className="flex flex-col">
-                    {cartItems}
+                        <AnimatePresence>
+                            {cartItems}
+                        </AnimatePresence>
                     </div>
                 </div>
                 <div className='m-4'>

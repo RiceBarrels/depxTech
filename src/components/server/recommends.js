@@ -1,4 +1,4 @@
-"use server"
+"use client"
 import "@/components/server/recommends.css";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
@@ -20,23 +20,67 @@ import Image from "next/image";
 import AddItem from "../client/addItem";
 import { TransitionLinkBackNav } from "../client/pageTransition";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
+// Move getData outside component
 async function getData() {
     const res = await fetch('https://api.depxtech.com/search?limit=50&filter_sellBySelf=1');
-    // The return value is *not* serialized
-    // You can return Date, Map, Set, etc.
-   
     if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
-      throw new Error('Failed to fetch data')
+        throw new Error('Failed to fetch data')
     }
-   
     return res.json()
 }
 
-export default async function Recommends() {  // Default value for items
-    
-    const items = await getData()
+// Add animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { 
+        opacity: 0, 
+        scale: 0.9,
+        y: 20 
+    },
+    show: { 
+        opacity: 1, 
+        scale: 1,
+        y: 0,
+        transition: {
+            type: "spring",
+            duration: 0.5
+        }
+    }
+};
+
+// Add a new function to generate blur data URL (you might want to move this to a utilities file)
+function generateBlurDataURL() {
+    return `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/svg" viewBox="0 0 400 400"><rect width="100%" height="100%" fill="%23f0f0f0"/></svg>`;
+}
+
+export default function Recommends() {
+    const [items, setItems] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        getData()
+            .then(data => {
+                setItems(data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                setIsLoading(false);
+            });
+    }, []);
+
     const loading = (
         <>
             <div className="flex flex-col bg-[var(--background-end-rgb)] rounded-xl w-[188px] h-[260px] m-3 space-y-2">
@@ -83,10 +127,21 @@ export default async function Recommends() {  // Default value for items
     );
 
     return (
-        <>
-            <h3 className="ml-3 text-xl mt-8">Recommends</h3>
+        <motion.div
+            initial="hidden"
+            animate="show"
+            variants={containerVariants}
+        >
+            <motion.h3 
+                className="ml-3 text-xl mt-8"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                Recommends
+            </motion.h3>
             <div className="flex flex-wrap w-full h-min-20 items-start mt-3">
-                {!items || items.length === 0 ? (
+                {isLoading || !items || items.length === 0 ? (
                     loading
                 ) : (
                     items.map((item) => {
@@ -94,10 +149,14 @@ export default async function Recommends() {  // Default value for items
                         const images = item.imgs ? JSON.parse(item.imgs) : [];
 
                         return (
-                            // make the div bellow golden ratio
                             <Drawer key={item.id} className="">
                                 <DrawerTrigger asChild>
-                                    <div href={"products/" + item.id} className="flex flex-col bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(50%-0.5rem)] min-h-72 md:w-[25%] space-y-2 justify-center items-center">
+                                    <motion.div
+                                        variants={itemVariants}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        className="flex flex-col bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(50%-0.5rem)] min-h-72 md:w-[25%] space-y-2 justify-center items-center"
+                                    >
                                         {images.length === 0 ? (
                                             <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
                                         ) : (
@@ -106,11 +165,13 @@ export default async function Recommends() {  // Default value for items
                                                     src={`https://src.depxtech.com/${images[0]}`} 
                                                     width={500} 
                                                     height={500} 
-                                                    alt={item.id}
+                                                    alt={item.title || 'Product image'}
                                                     className="absolute top-0 left-0 w-full h-full object-contain rounded-xl"
                                                     loading="lazy"
                                                     placeholder="blur"
-                                                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+                                                    blurDataURL={generateBlurDataURL()}
+                                                    sizes="(max-width: 768px) 50vw, 25vw"
+                                                    quality={60} // Lower initial quality
                                                 />
                                             </div>
                                         )}
@@ -121,53 +182,61 @@ export default async function Recommends() {  // Default value for items
                                                 {item.price}
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </DrawerTrigger>
                                 
                                 <DrawerContent className="h-[95dvh] border-[0.5px] border-[#88888850] z-[1003]">
-                                    <DrawerHeader className="flex">
-                                        <DrawerClose ><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
-                                        <div className="flex-1">
-                                            <DrawerTitle>{item.title}</DrawerTitle>
-                                            <DrawerDescription>Let me see this item in the database...</DrawerDescription>
-                                        </div>
-                                        <Link href={"./products/" + item.id} prefetch={true} className="flex justify-center items-center"><Maximize className="active:bg-[#88888850]" size={24} /></Link>
-                                    </DrawerHeader>
-
-                                    <div className="flex-1 flex-col flex overflow-y-scroll">
-                                        {images.length === 0 ? (
-                                            <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
-                                        ) : (
-                                            <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
-                                                {images.map((image) => {
-                                                    return <CarouselSlide key={image}><Image src={"https://src.depxtech.com/"+image} width="500" height="500" alt={item.id} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" /></CarouselSlide>
-                                                })}
-                                            </Carousel>
-                                        )}
-                                        <div className="space-y-1 p-1 px-4 w-full select-text">
-                                            <h3 className="">{item.title}</h3>
-                                            <div className="text-sm">{item.available} available | {item.solds} sold</div>
-                                            <div className="text-3xl text-right font-extrabold">
-                                                <span className="text-sm align-top">$ </span>
-                                                <span>{item.price.split('.')[0]}</span>
-                                                <span className="text-[0px]">.</span>
-                                                <span className="text-sm align-top">{item.price.split('.')[1]}</span>
+                                    <motion.div
+                                        initial={{ y: "100%" }}
+                                        animate={{ y: 0 }}
+                                        exit={{ y: "100%" }}
+                                        transition={{ type: "spring", damping: 25 }}
+                                        className="h-full flex flex-col"
+                                    >
+                                        <DrawerHeader className="flex">
+                                            <DrawerClose ><GrClose className="active:bg-[#88888850]" size={24}/></DrawerClose>
+                                            <div className="flex-1">
+                                                <DrawerTitle>{item.title}</DrawerTitle>
+                                                <DrawerDescription>Let me see this item in the database...</DrawerDescription>
                                             </div>
-                                            <h3 className="">Description:</h3>
-                                            <p className="">{item.des}</p>
-                                        </div>
-                                    </div>
+                                            <Link href={"./products/" + item.id} prefetch={true} className="flex justify-center items-center"><Maximize className="active:bg-[#88888850]" size={24} /></Link>
+                                        </DrawerHeader>
 
-                                    <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850]">
-                                        <AddItem item={item} images={images}/>
-                                        <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"}><Button className="flex-1 button py-2">Buy Now</Button></TransitionLinkBackNav>
-                                    </DrawerFooter>
+                                        <div className="flex-1 overflow-y-auto">
+                                            {images.length === 0 ? (
+                                                <Skeleton className="relative w-[100%] pb-[100%] rounded-xl" />
+                                            ) : (
+                                                <Carousel slideSize="100%" height="100vw" className="flex-1" loop withIndicators>
+                                                    {images.map((image) => {
+                                                        return <CarouselSlide key={image}><Image src={"https://src.depxtech.com/"+image} width="500" height="500" alt={item.title || 'Product image'} className="absolute top-0 left-0 w-full h-full object-contain rounded-xl" placeholder="blur" blurDataURL={generateBlurDataURL()} sizes="100vw" quality={85} /></CarouselSlide>
+                                                    })}
+                                                </Carousel>
+                                            )}
+                                            <div className="space-y-1 p-1 px-4 w-full select-text">
+                                                <h3 className="">{item.title}</h3>
+                                                <div className="text-sm">{item.available} available | {item.solds} sold</div>
+                                                <div className="text-3xl text-right font-extrabold">
+                                                    <span className="text-sm align-top">$ </span>
+                                                    <span>{item.price.split('.')[0]}</span>
+                                                    <span className="text-[0px]">.</span>
+                                                    <span className="text-sm align-top">{item.price.split('.')[1]}</span>
+                                                </div>
+                                                <h3 className="">Description:</h3>
+                                                <p className="">{item.des}</p>
+                                            </div>
+                                        </div>
+
+                                        <DrawerFooter className="flex flex-row items-center border-t-[0.5px] border-t-[#88888850]">
+                                            <AddItem item={item} images={images}/>
+                                            <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"}><Button className="flex-1 button py-2">Buy Now</Button></TransitionLinkBackNav>
+                                        </DrawerFooter>
+                                    </motion.div>
                                 </DrawerContent>
                             </Drawer>
                         );
                     })
                 )}
             </div>
-        </>
+        </motion.div>
     );
 }

@@ -121,6 +121,14 @@ module.exports = {
   				to: {
   					'background-position': '0% 0%'
   				}
+  			},
+  			shimmer: {
+  				'0%': { transform: 'translateX(-100%)' },
+  				'100%': { transform: 'translateX(100%)' }
+  			},
+  			pulse: {
+  				'0%, 100%': { opacity: 0.4 },
+  				'50%': { opacity: 0.8 }
   			}
   		}
   	}

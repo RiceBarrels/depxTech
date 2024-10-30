@@ -96,6 +96,13 @@ export default function Footer(){
                     </AccordionItem>
                 </Accordion>
             </div>
+            <div className="text-center p-4">
+                <small>Copyright © 2024 DepxTech. All rights reserved.</small>
+            </div>
+            <div className="text-center p-4">
+                <small>Powered by <Link href="https://www.depxtech.com">DepxTech</Link> Our Self</small>
+            </div>
+            <div className="h-20"/>
         </div>
     );
 }

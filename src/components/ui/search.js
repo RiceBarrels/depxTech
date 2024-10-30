@@ -11,7 +11,7 @@ export default function Search() {
   };
 
   return (
-    <div className="sticky top-0 z-[102]">
+    <div className="fixed top-[48px] w-[100vw] z-[102]">
         <div className="background-card rounded-b-3xl p-2 pt-0 text-center w-full relative z-[102] border-[0.5px] border-[#88888850] border-t-0">
             <motion.input 
                 placeholder="Search..." 

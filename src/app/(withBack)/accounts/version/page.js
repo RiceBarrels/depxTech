@@ -1,8 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 import { useRouter } from 'next/navigation'
+import pkg from '../../../../../package.json';
 
-export default function Version() { // Updated function name
+export default function Version() {
   const router = useRouter();
 
   return (
@@ -22,11 +23,11 @@ export default function Version() { // Updated function name
           <h2>App Version</h2>
           <br/>
           <div>
-            Version 0.0.1 (Beta)
+            <b>Version</b> {pkg.version}
             <br/>
-            Next.js Version 14.2.5
+            <b>Next.js</b> {pkg.dependencies.next}
             <hr className="m-3"/>
-            Copyright © 2024 DeepHuo.com. All rights reserved.
+            <b>Copyright</b> © 2024 DepxTech.com. All rights reserved.
             <hr className="mt-3"/>
             <button className="pt-3 w-full cursor-pointer" onClick={() => router.back()}>
               Back

@@ -52,21 +52,29 @@ export default function GPUSelect({ data }) {
     }
 
     return (
-        <div className="flex flex-col">
-            <div className='h-[calc(100dvh-45px-40px-40px)] overflow-scroll'>
-                <div className='flex flex-wrap items-start justify-start mt-3'>
-                    <motion.div className='flex flex-col rounded-xl m-4 my-6 w-[calc(100%-2rem)] md:w-[calc(100%/3-2rem)] space-y-2 justify-center'
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 20
-                        }}
+        <div className="flex flex-col min-h-[calc(100dvh-125px)] bg-gradient-to-br from-background via-blue-950/10 to-purple-950/10">
+            <div className='flex-1 overflow-auto px-4 py-8'>
+                <div className="text-center mb-12 space-y-2">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                        GPU Details
+                    </h1>
+                    <p className="text-muted-foreground">Select your graphics card specifications</p>
+                </div>
+
+                <div className='flex flex-wrap items-start justify-center gap-6 max-w-7xl mx-auto'>
+                    <motion.div 
+                        className='relative flex flex-col rounded-xl p-6 w-full md:w-[calc(100%/3-2rem)] bg-card/50 backdrop-blur-sm border border-white/10 shadow-xl space-y-3 hover:shadow-blue-500/10 hover:border-blue-500/20 transition-all duration-300'
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
                     >
-                        <p>What&apos;s the Chipset? (ex: AMD)</p>
+                        <div className="absolute -z-10 inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-xl" />
+                        <p className="font-medium text-lg flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                            Chipset Manufacturer
+                        </p>
                         <Select onValueChange={handleGPUChange}>
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full bg-background/50 backdrop-blur-sm border-white/10">
                                 <SelectValue placeholder="Select a GPU" />
                             </SelectTrigger>
                             <SelectContent className="h-[40dvh]">
@@ -78,17 +86,19 @@ export default function GPUSelect({ data }) {
                             </SelectContent>
                         </Select>
                     </motion.div>
+
                     {selectedGPU && (
-                        <motion.div className='flex flex-col rounded-xl m-4 my-6 w-[calc(100%-2rem)] md:w-[calc(100%/3-2rem)] space-y-2 justify-center'
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 20
-                            }}
+                        <motion.div 
+                            className='relative flex flex-col rounded-xl p-6 w-full md:w-[calc(100%/3-2rem)] bg-card/50 backdrop-blur-sm border border-white/10 shadow-xl space-y-3 hover:shadow-purple-500/10 hover:border-purple-500/20 transition-all duration-300'
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            <p>What&apos;s the Series?</p>
+                            <div className="absolute -z-10 inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 rounded-xl" />
+                            <p className="font-medium text-lg flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                                GPU Series
+                            </p>
                             <Select onValueChange={handleTypeChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Series"} />
@@ -103,17 +113,19 @@ export default function GPUSelect({ data }) {
                             </Select>
                         </motion.div>
                     )}
+
                     {selectedType && (
-                        <motion.div className='flex flex-col rounded-xl m-4 my-6 w-[calc(100%-2rem)] md:w-[calc(100%/3-2rem)] space-y-2 justify-center'
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 20
-                            }}
+                        <motion.div 
+                            className='relative flex flex-col rounded-xl p-6 w-full md:w-[calc(100%/3-2rem)] bg-card/50 backdrop-blur-sm border border-white/10 shadow-xl space-y-3 hover:shadow-pink-500/10 hover:border-pink-500/20 transition-all duration-300'
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            <p>What&apos;s the specific title of your model?</p>
+                            <div className="absolute -z-10 inset-0 bg-gradient-to-br from-pink-500/5 to-red-500/5 rounded-xl" />
+                            <p className="font-medium text-lg flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-pink-500"></span>
+                                Specific Title of Your Model
+                            </p>
                             <Select onValueChange={handleModelChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Model"} />
@@ -128,17 +140,19 @@ export default function GPUSelect({ data }) {
                             </Select>
                         </motion.div>
                     )}
+
                     {selectedModel && (
-                        <motion.div className='flex flex-col rounded-xl m-4 my-6 w-[calc(100%-2rem)] md:w-[calc(100%/3-2rem)] space-y-2 justify-center'
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 20
-                            }}
+                        <motion.div 
+                            className='relative flex flex-col rounded-xl p-6 w-full md:w-[calc(100%/3-2rem)] bg-card/50 backdrop-blur-sm border border-white/10 shadow-xl space-y-3 hover:shadow-red-500/10 hover:border-red-500/20 transition-all duration-300'
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            <p>What&apos;s the brand that made this?</p>
+                            <div className="absolute -z-10 inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 rounded-xl" />
+                            <p className="font-medium text-lg flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                                Brand
+                            </p>
                             <Select onValueChange={handleBrandChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Brand"} />
@@ -153,17 +167,19 @@ export default function GPUSelect({ data }) {
                             </Select>
                         </motion.div>
                     )}
+
                     {selectedBrand && (
-                        <motion.div className='flex flex-col rounded-xl m-4 my-6 w-[calc(100%-2rem)] md:w-[calc(100%/3-2rem)] space-y-2 justify-center'
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 20
-                            }}
+                        <motion.div 
+                            className='relative flex flex-col rounded-xl p-6 w-full md:w-[calc(100%/3-2rem)] bg-card/50 backdrop-blur-sm border border-white/10 shadow-xl space-y-3 hover:shadow-orange-500/10 hover:border-orange-500/20 transition-all duration-300'
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            <p>What&apos;s the Condition?</p>
+                            <div className="absolute -z-10 inset-0 bg-gradient-to-br from-orange-500/5 to-yellow-500/5 rounded-xl" />
+                            <p className="font-medium text-lg flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                                Condition
+                            </p>
                             <Select onValueChange={handleConditionChange}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder={"Condition"} />
@@ -177,17 +193,22 @@ export default function GPUSelect({ data }) {
                     )}
                 </div>
             </div>
+
             {selectedCondition && (
-                <motion.div className='w-full'
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                    }}
+                <motion.div 
+                    className='sticky bottom-0 p-4 bg-background/80 backdrop-blur-md border-t border-white/10'
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
                 >
-                    <TransitionLinkBackNav href={`gpu/${selectedGPU}/${selectedType}/${selectedModel}/${selectedBrand}/${selectedCondition}/Sell-GPU`}><Button className="mx-4 w-[calc(100%-2rem)]">Next</Button></TransitionLinkBackNav>
+                    <TransitionLinkBackNav href={`gpu/${selectedGPU}/${selectedType}/${selectedModel}/${selectedBrand}/${selectedCondition}/Sell-GPU`}>
+                        <Button 
+                            className="w-full max-w-md mx-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300" 
+                            size="lg"
+                        >
+                            Continue to Next Step
+                        </Button>
+                    </TransitionLinkBackNav>
                 </motion.div>
             )}
         </div>
