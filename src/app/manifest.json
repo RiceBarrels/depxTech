@@ -3,8 +3,6 @@
   "short_name": "DepxTech",
   "display": "standalone",
   "start_url": "/",
-  "background_color": "var(--background-end-rgb)",
-  "theme_color": "#005eff",
   "orientation": "portrait",
   "icons": [
     {
