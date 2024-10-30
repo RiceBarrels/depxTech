@@ -49,6 +49,10 @@ export const TransitionLinkBackNav = ({ children, href, ...props }) => {
 
   const handleTransition = async (e) => {
     e.preventDefault();
+    
+    // Check if running as iOS web app
+    const isIOSWebApp = window.navigator.standalone === true;
+    
     const mainContant = document.querySelector("#mainContant");
     const loader = document.getElementById("transition-loader");
 
@@ -61,8 +65,14 @@ export const TransitionLinkBackNav = ({ children, href, ...props }) => {
     await sleep(300);
 
     startTransition(() => {
-      router.push(href);
+      if (isIOSWebApp) {
+        // Force same-window navigation for iOS web apps
+        window.location.href = href;
+      } else {
+        router.push(href);
+      }
     });
+    
     await sleep(10);
 
     loader?.classList.add("noTiming");
