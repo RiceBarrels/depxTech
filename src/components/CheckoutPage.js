@@ -114,16 +114,40 @@ const CheckoutPage = ({ amount,cart }) => {
   }, [isLoaded, isSignedIn, user]);
 
   useEffect(() => {
+    if (!selectedAddress || !email) return;
+
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount), cart: cart }),
+      body: JSON.stringify({ 
+        amount: convertToSubcurrency(amount), 
+        cart: cart,
+        shipping: {
+          name: `${selectedAddress.first_name} ${selectedAddress.last_name}`,
+          address: {
+            line1: selectedAddress.line1,
+            line2: selectedAddress.line2 || '',
+            city: selectedAddress.city,
+            state: selectedAddress.state,
+            postal_code: selectedAddress.postal_code,
+            country: selectedAddress.country
+          },
+          phone: selectedAddress.phone_number
+        },
+        customer_email: email
+      }),
     })
       .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
+      .then((data) => {
+        if (data.error) {
+          console.error('Error creating payment intent:', data.error);
+          return;
+        }
+        setClientSecret(data.clientSecret);
+      });
+  }, [amount, selectedAddress, email]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -145,7 +169,7 @@ const CheckoutPage = ({ amount,cart }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.depxtech.com/payment-success?amount=${amount}`,
+        return_url: `${window.location.origin}/payment-success?amount=${amount}`,
         receipt_email: email
       },
     });

@@ -10,5 +10,8 @@
       "sizes": "192x192",
       "type": "image/png"
     }
-  ]
+  ],
+  "payment": {
+    "supported_methods": ["basic-card", "https://apple.com/apple-pay", "https://google.com/pay"]
+  }
 }

@@ -11,6 +11,16 @@ import { FaApplePay } from 'react-icons/fa6';
 import { TransitionLinkBackNav } from '@/components/client/pageTransition';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import ExpressCheckoutButton from "@/components/client/ExpressCheckoutButton";
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
+}
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY, {
+  apiVersion: '2023-10-16',
+});
 
 // Create a new CartItem component
 const CartItem = ({ item, cartItem, index, editing, onDelete, onUpdateQuantity }) => {
@@ -301,7 +311,37 @@ export default function Home() {
                         )}
                     </div>
                     </h3>
-                    {totalAmount != 0 && <TransitionLinkBackNav className="flex" href="/cart/checkout"><Button className="flex-1 text-md" size="lg">Checkout</Button></TransitionLinkBackNav> || <div className='flex'><Button className="flex-1 text-md" size="lg" variant="disabled">Checkout</Button></div>}
+                    <div className="flex flex-col gap-2">
+                        {totalAmount != 0 && (
+                            <>
+                                <Elements 
+                                    stripe={stripePromise}
+                                    options={{
+                                        mode: 'payment',
+                                        currency: 'usd',
+                                        payment_method_types: ['card'],
+                                        amount: Math.round(totalAmount * 100),
+                                        appearance: {
+                                            theme: 'stripe',
+                                            variables: {
+                                                colorPrimary: '#4F46E5',
+                                            },
+                                        },
+                                    }}
+                                >
+                                    <ExpressCheckoutButton amount={totalAmount} cart={cart} />
+                                </Elements>
+                                <div className="text-center text-sm text-gray-500">or</div>
+                                <TransitionLinkBackNav className="flex" href="/cart/checkout">
+                                    <Button className="flex-1 text-md" size="lg">Checkout with Card</Button>
+                                </TransitionLinkBackNav>
+                            </>
+                        ) || (
+                            <div className='flex'>
+                                <Button className="flex-1 text-md" size="lg" variant="disabled">Checkout</Button>
+                            </div>
+                        )}
+                    </div>
                     <div className='flex justify-around *:inline *:h-8 *:w-auto *:px-3 *:py-1 *:border *:rounded-sm p-2 background-card my-2 rounded-xl border-[#88888888]'>
                     <SiVisa />
                     <SiMastercard />
