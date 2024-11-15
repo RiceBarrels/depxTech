@@ -6,6 +6,7 @@ import { TransitionLinkBackNav } from "@/components/client/pageTransition";
 import Footer from "@/components/server/footer";
 import Link from "next/link";
 import DepxTechLoading from "@/components/ui/depxtechLoading";
+import { Toaster } from '@/components/ui/toaster';
 
 // Call the suppression function at the top level
 suppressHydrationWarnings();
@@ -30,6 +31,7 @@ export default function withNavBar({children, loading}){
                     <div className="content h-[calc(100dvh-48.9px-1.5rem-3rem)] lg:max-w-[1200px]">
                         <div className="min-h-[calc(100dvh-48.9px-1.5rem-3rem)]">
                             {children}
+                            <Toaster />
                         </div>
                         <Footer/>
                     </div>

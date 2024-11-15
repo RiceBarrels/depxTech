@@ -3,20 +3,27 @@ import GpuTradeInCard from "@/components/client/GpuTradeInCard"
 import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 
+
 export default async function gpuSell({params}) {
     const response = await fetch('https://src.depxtech.com/json/trade-in');
     const data = await response.json();
     const user = await currentUser();
     let serializedUser = null;
+    console.log('data:', data);
+    console.log('params:', params);
     
     try {
         const series = params.series.replace('%20',' ');
         const condition = params.condition.toLowerCase().replace('%20',' ');
         
         // Find the correct model in the array
-        const seriesArray = data.GPU?.[params.gpu]?.[series] || [];
-        const modelData = seriesArray.find(item => item.name === decodeURIComponent(params.model));
-        const price = modelData?.[condition] || 0;
+        const seriesArray = data.GPU[`${params.gpu}`][`${series}`] || [];
+        const modelData = seriesArray[params.model];
+        const price = modelData?.[`${condition}`] || 0;
+        console.log('price', price);
+        console.log('modelData', modelData);
+        console.log('seriesArray', seriesArray);
+        console.log('params.model', params.model);
         
         const gpuDetails = {
             gpu: params.gpu,
@@ -28,6 +35,7 @@ export default async function gpuSell({params}) {
             price: price,
             placeHolder: params.placeHolder
         };
+        console.log(gpuDetails);
 
         const pricing = {
             totalPrice: price,

@@ -5,7 +5,7 @@ import { SignOutButton } from "@clerk/nextjs";
 import { TbSettings2 } from "react-icons/tb";
 import { BsJournalText } from "react-icons/bs";
 import { FiStar } from "react-icons/fi";
-import { RiCoupon3Line } from "react-icons/ri";
+import { RiCoupon3Line, RiExchange2Line } from "react-icons/ri";
 import { IoIosArrowForward } from "react-icons/io";
 import { GrCircleQuestion } from "react-icons/gr";
 import { RiCustomerServiceLine } from "react-icons/ri";
@@ -18,7 +18,7 @@ import DepxTechLoading from "@/components/ui/depxtechLoading";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoMdCopy } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
-import { FaUserCircle } from "react-icons/fa";
+import { FaExchangeAlt, FaStackExchange, FaUserCircle } from "react-icons/fa";
 import { AiOutlineUserAdd } from "react-icons/ai";
 const CopyModal = ({ userId, isOpen, onClose }) => {
   const [copySuccess, setCopySuccess] = useState(false);
@@ -382,7 +382,13 @@ export default function Accounts() {
         </TransitionLinkBackNav>
         <TransitionLinkBackNav href="accounts/coupons" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
           <RiCoupon3Line className="mx-2" size={20}/>
-          <small className="mx-2">Coupons & Offers</small>
+          <small className="mx-2">My Coupons & Offers</small>
+          <div className="flex-1"/>
+          <IoIosArrowForward className="mx-1" size={14} />
+        </TransitionLinkBackNav>
+        <TransitionLinkBackNav href="accounts/trade-ins" className="flex w-full py-[12px] px-1 card-feedback rounded-xl">
+          <RiExchange2Line className="mx-2" size={20}/>
+          <small className="mx-2">My Trade Ins</small>
           <div className="flex-1"/>
           <IoIosArrowForward className="mx-1" size={14} />
         </TransitionLinkBackNav>

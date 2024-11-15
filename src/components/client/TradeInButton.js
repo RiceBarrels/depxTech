@@ -3,32 +3,65 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function TradeInButton({ gpuDetails, firstName, to }) {
+export default function TradeInButton({ details, firstName, to, type = 'gpu', className }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+
+    const getTradeInPath = () => {
+        switch(type.toLowerCase()) {
+            case 'gpu':
+                return `/trade/gpu/${details.gpu}/${details.series}/${details.modelId}/${details.brand}/${details.condition}/${details.placeHolder}/success`;
+            case 'ram':
+                return `/trade/ram/${details.ddr}/${details.speedId}/${details.size}/${details.brand}/${details.condition}/Sell-RAM/success`;
+            default:
+                throw new Error(`Unsupported trade-in type: ${type}`);
+        }
+    };
+
+    const getSubject = () => {
+        switch(type.toLowerCase()) {
+            case 'gpu':
+                return `New GPU Trade-In Request: ${details.gpu} ${details.brand}`;
+            case 'ram':
+                return `New RAM Trade-In Request: ${details.ddr} ${details.brand} ${details.speed || details.modelId}`;
+            default:
+                throw new Error(`Unsupported trade-in type: ${type}`);
+        }
+    };
 
     const handleTradeIn = async () => {
         setLoading(true);
         try {
+            console.log('Sending trade-in details:', {
+                subject: getSubject(),
+                details,
+                firstName,
+                to,
+                type
+            });
+
             const response = await fetch('/api/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    subject: `New GPU Trade-In Request: ${gpuDetails.gpu} ${gpuDetails.brand}`,
-                    gpuDetails: gpuDetails,
+                    subject: getSubject(),
+                    details: details,
                     firstName: firstName,
-                    to: to
+                    to: to,
+                    type: type
                 }),
             });
 
-            if (!response.ok) throw new Error('Failed to send trade-in request');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Failed to send trade-in request: ${JSON.stringify(errorData)}`);
+            }
             
-            // Ensure placeHolder is defined, default to 'Sell-GPU' if not
-            const placeHolder = gpuDetails.placeHolder || 'Sell-GPU';
+            const placeHolder = details.placeHolder || `Sell-${type.toUpperCase()}`;
             
-            router.push(`/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.modelId}/${gpuDetails.brand}/${gpuDetails.condition}/${placeHolder}/success`);
+            router.push(getTradeInPath());
         } catch (error) {
             console.error('Error:', error);
             alert(`Failed to send trade-in request. Please try again. ${error}`);
@@ -39,7 +72,7 @@ export default function TradeInButton({ gpuDetails, firstName, to }) {
 
     if (loading) {
         return (
-            <Button disabled className="cursor-not-allowed">
+            <Button disabled className={`cursor-not-allowed ${className}`}>
                 <div className="flex items-center justify-center">
                     <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                         <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
@@ -50,5 +83,12 @@ export default function TradeInButton({ gpuDetails, firstName, to }) {
         );
     }
 
-    return <Button onClick={handleTradeIn}>Trade In</Button>;
+    return (
+        <Button 
+            onClick={handleTradeIn} 
+            className={className}
+        >
+            Trade In
+        </Button>
+    );
 }

@@ -1,13 +1,36 @@
-'use client'
+"use client"
 
 import { Card, CardContent } from "@/components/ui/card"
 import TradeInButton from "@/components/client/TradeInButton"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useUser } from "@clerk/nextjs"
+import { useState } from "react"
 
-const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
+const RamTradeInCard = ({ ramDetails, user, pricing }) => {
     const { totalPrice, deposit, remaining } = pricing
+    const { isSignedIn } = useUser();
+    const [showSignIn, setShowSignIn] = useState(false);
+
+    // Prepare the details object with the correct structure
+    const tradeInDetails = {
+        ddr: ramDetails.ddr,
+        brand: ramDetails.brand,
+        speed: ramDetails.speed,
+        speedId: ramDetails.speedId,
+        size: ramDetails.size,
+        condition: ramDetails.condition,
+        price: ramDetails.price,
+        placeHolder: ramDetails.placeHolder || 'Sell-RAM',
+        modelId: ramDetails.speed.replace(' ', '%20') // Add this for URL compatibility
+    };
+
+    const handleTradeInClick = () => {
+        if (!isSignedIn) {
+            setShowSignIn(true);
+        }
+    };
 
     return (
         <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -41,12 +64,12 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
                         className="p-6"
                     >
                         <h1 className="text-sm font-medium text-primary/80 uppercase tracking-wider">
-                            GPU Trade-In Offer
+                            RAM Trade-In Offer
                         </h1>
                     </motion.div>
 
                     <CardContent className="p-8 space-y-10">
-                        {/* GPU Details Section - Added floating effect */}
+                        {/* RAM Details Section - Added floating effect */}
                         <motion.div 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1, y: [0, -10, 0] }}
@@ -62,16 +85,16 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
                         >
                             <div className="space-y-4">
                                 <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                                    {gpuDetails.gpu} {gpuDetails.brand}
+                                    {ramDetails.brand} {ramDetails.ddr}
                                 </h2>
                                 <h3 className="text-2xl opacity-75">
-                                    {gpuDetails.model}
+                                    {ramDetails.speed} {ramDetails.size}
                                 </h3>
                             </div>
                             
                             <div className="flex items-center space-x-4">
                                 <div className="px-4 py-2 rounded-full bg-primary/10 text-primary border border-primary/20 shadow-sm">
-                                    <span className="capitalize">{gpuDetails.condition} Condition</span>
+                                    <span className="capitalize">{ramDetails.condition} Condition</span>
                                 </div>
                                 <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                             </div>
@@ -196,16 +219,16 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
                         >
                             {user ? (
                                 <TradeInButton 
-                                    gpuDetails={gpuDetails} 
+                                    details={tradeInDetails}  // Use the prepared details object
                                     firstName={user.firstName} 
                                     to={user.emailAddresses[0].emailAddress}
-                                    type="gpu"
+                                    type="ram"
                                     className="w-full bg-primary hover:bg-primary/90 text-white py-5 rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                                 />
                             ) : (
                                 <Link 
                                     href={`/sign-in?redirect_url=${encodeURIComponent(
-                                        `/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.model}/${gpuDetails.brand}/${gpuDetails.condition}/${gpuDetails.placeHolder}`
+                                        `/trade/ram/${tradeInDetails.ddr}/${tradeInDetails.speed}/${tradeInDetails.brand}/${tradeInDetails.condition}/${tradeInDetails.placeHolder}`
                                     )}`}
                                 >
                                     <Button className="w-full bg-primary hover:bg-primary/90 py-5 rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
@@ -260,4 +283,4 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
     )
 }
 
-export default GpuTradeInCard
+export default RamTradeInCard 
