@@ -5,10 +5,11 @@ import WordRotate from "@/components/magicui/word-rotate";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import Particles from "@/components/magicui/particles";
 import SparklesText from "@/components/magicui/sparkles-text";
-import { RainbowButton } from "@/components/magicui/rainbow-button";
+import Link from "next/link";
 import ShineBorder from "@/components/ui/shine-border";
 import Marquee from "@/components/magicui/marquee";
 import Image from 'next/image';
+import { Button } from "@/components/ui/button";
 
 export default async function HomeClient() {
   const words = ["Performance", "Cute", "Lovely", "Modern"];
@@ -25,7 +26,7 @@ export default async function HomeClient() {
             <div className="flex flex-col justify-center h-full hover:scale-105 transition-transform duration-200">
               <SparklesText className="text-4xl mb-4 w-2/3" text="Sell you PC parts in 5 min!" />
               <div className="w-2/3">
-                <RainbowButton url="trade">Trade Now</RainbowButton>
+                <Link href="/trade"><Button className="w-full">Trade Now</Button></Link>
               </div>
             </div>
           </CarouselSlide>
@@ -51,7 +52,7 @@ export default async function HomeClient() {
 
       <div>
         <ShineBorder
-          className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border background-default md:shadow-xl text-color"
+          className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg border background-card md:shadow-xl text-color"
           color={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
         >
           <h3 className="w-full hover:scale-105 transition-transform duration-200">

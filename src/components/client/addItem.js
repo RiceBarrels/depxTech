@@ -18,7 +18,7 @@ import { GrClose } from "react-icons/gr";
 import { Button } from '../ui/button';
 import { TransitionLink, TransitionLinkBackNav } from './pageTransition';
 
-export default function AddItem({ item, isIndividual = "0" }) {
+export default function AddItem({ item, isIndividual = "0", className }) {
     const [loading, setLoading] = useState(true);
     const [type, setType] = useState(isIndividual);
     const [itemId, setItemId] = useState(item.id);
@@ -131,9 +131,9 @@ export default function AddItem({ item, isIndividual = "0" }) {
     const currentQuantityInCart = currentItem ? parseInt(currentItem.quantity) : 0;
 
     return (
-        <Drawer className="">
+        <Drawer>
             <DrawerTrigger asChild>
-                <Button className="flex-1 button-secondary py-2" disabled={!user}>
+                <Button className={"button-secondary py-2 " + className} disabled={!user}>
                     {user ? "Add to Cart" : "Sign In to use Cart"}
                 </Button>
             </DrawerTrigger>

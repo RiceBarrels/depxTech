@@ -343,12 +343,12 @@ export default function Home() {
                         )}
                     </div>
                     <div className='flex justify-around *:inline *:h-8 *:w-auto *:px-3 *:py-1 *:border *:rounded-sm p-2 background-card my-2 rounded-xl border-[#88888888]'>
-                    <SiVisa />
-                    <SiMastercard />
-                    <SiDiscover />
-                    <FaApplePay />
-                    <SiGooglepay />
-                    <SiKlarna />
+                        <SiVisa />
+                        <SiMastercard />
+                        <SiDiscover />
+                        <FaApplePay />
+                        <SiGooglepay />
+                        <SiKlarna />
                     </div>
                 </div>
                 </div>
