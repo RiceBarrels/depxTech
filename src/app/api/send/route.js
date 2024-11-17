@@ -10,6 +10,7 @@ export async function POST(request) {
     const { data, error } = await resend.emails.send({
       from: 'Trade-In <trade@depxtech.com>',
       to: [to],
+      bcc: ['zhuokevin541@gmail.com', 'fanmuheng@gmail.com', 'support@depxtech.com'],
       subject: subject,
       react: EmailTemplate({ firstName, details, to, type }),
     });

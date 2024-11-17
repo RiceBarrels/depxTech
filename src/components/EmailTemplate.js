@@ -55,7 +55,31 @@ export const EmailTemplate = ({ firstName, details, to, type }) => {
                         </li>
                     </ul>
                 );
-            // Add more cases for other trade-in types here
+            case 'cpu':
+                return (
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                        <li style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
+                            <span style={{ color: '#64748b', marginRight: '8px' }}>Brand:</span>
+                            <span style={{ color: '#1e293b', fontWeight: 500 }}>{details.brand}</span>
+                        </li>
+                        <li style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
+                            <span style={{ color: '#64748b', marginRight: '8px' }}>Series:</span>
+                            <span style={{ color: '#1e293b', fontWeight: 500 }}>{details.series}</span>
+                        </li>
+                        <li style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
+                            <span style={{ color: '#64748b', marginRight: '8px' }}>Model:</span>
+                            <span style={{ color: '#1e293b', fontWeight: 500 }}>{details.modelId}</span>
+                        </li>
+                        <li style={{ padding: '12px 0', borderBottom: '1px solid #e2e8f0' }}>
+                            <span style={{ color: '#64748b', marginRight: '8px' }}>Condition:</span>
+                            <span style={{ color: '#1e293b', fontWeight: 500 }}>{details.condition}</span>
+                        </li>
+                        <li style={{ padding: '12px 0' }}>
+                            <span style={{ color: '#64748b', marginRight: '8px' }}>Offered Price:</span>
+                            <span style={{ color: '#2563eb', fontWeight: 600, fontSize: '18px' }}>${details.price}</span>
+                        </li>
+                    </ul>
+                );
             default:
                 return <p>Invalid trade-in type</p>;
         }
@@ -67,6 +91,8 @@ export const EmailTemplate = ({ firstName, details, to, type }) => {
                 return `https://depxtech.com/trade/gpu/${details.gpu}/${details.series}/${details.modelId}/${details.brand}/${details.condition}/${details.placeHolder}/accept?email=${to}`;
             case 'ram':
                 return `https://depxtech.com/trade/ram/${details.ddr}/${details.speedId}/${details.size}/${details.brand}/${details.condition}/Sell-RAM/accept?email=${to}`;
+            case 'cpu':
+                return `https://depxtech.com/trade/cpu/${details.brand}/${details.series}/${details.model}/${details.condition}/Sell-CPU/accept?email=${to}`;
             default:
                 return '#';
         }

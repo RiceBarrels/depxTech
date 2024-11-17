@@ -13,6 +13,8 @@ export default function TradeInButton({ details, firstName, to, type = 'gpu', cl
                 return `/trade/gpu/${details.gpu}/${details.series}/${details.modelId}/${details.brand}/${details.condition}/${details.placeHolder}/success`;
             case 'ram':
                 return `/trade/ram/${details.ddr}/${details.speedId}/${details.size}/${details.brand}/${details.condition}/Sell-RAM/success`;
+            case 'cpu':
+                return `/trade/cpu/${details.brand}/${details.series}/${details.model}/${details.condition}/Sell-CPU/success`;
             default:
                 throw new Error(`Unsupported trade-in type: ${type}`);
         }
@@ -23,7 +25,9 @@ export default function TradeInButton({ details, firstName, to, type = 'gpu', cl
             case 'gpu':
                 return `New GPU Trade-In Request: ${details.gpu} ${details.brand}`;
             case 'ram':
-                return `New RAM Trade-In Request: ${details.ddr} ${details.brand} ${details.speed || details.modelId}`;
+                return `New RAM Trade-In Request: ${details.brand} ${details.ddr} ${details.speed || details.modelId}`;
+            case 'cpu':
+                return `New CPU Trade-In Request: ${details.brand} ${details.model}`;
             default:
                 throw new Error(`Unsupported trade-in type: ${type}`);
         }

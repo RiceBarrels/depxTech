@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { TransitionLinkBackNav } from "../client/pageTransition";
 
 // Animation variants
 const itemVariants = {
@@ -71,7 +71,7 @@ export default function Search() {
   return (
     <div className="fixed top-[48px] w-[100vw] z-[102]">
       <motion.div 
-        className={"background-card rounded-b-3xl p-2 text-center w-full relative z-[102] border-[#88888850] border-t-0 transition-all duration-100" + (isSearchActive ? " pt-4" : "pt-0")}
+        className={"background-card rounded-b-3xl p-2 text-center w-full fixed z-[102] border-[#88888850] border-t-0 transition-all duration-100" + (isSearchActive ? " pt-4" : "pt-0")}
         animate={{boxShadow: isSearchActive ? "" : "0 0 12px 2px #88888888"}}
         onClick={() => document.getElementById("search-input").focus()}
       >
@@ -135,8 +135,8 @@ export default function Search() {
                   animate="show"
                   className="w-full"
                 >
-                  <Link 
-                    href={`/products/${result.id}`}
+                  <TransitionLinkBackNav
+                    href={`/products/${result.title}`}
                     className="flex items-center p-4 hover:bg-gray-100/5 transition-colors"
                   >
                     <div className="w-16 h-16 relative flex-shrink-0">
@@ -170,7 +170,7 @@ export default function Search() {
                         {result.price}
                       </p>
                     </div>
-                  </Link>
+                  </TransitionLinkBackNav>
                 </motion.div>
               );
             })}

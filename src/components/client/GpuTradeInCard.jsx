@@ -196,11 +196,11 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
                         >
                             {user ? (
                                 <TradeInButton 
-                                    gpuDetails={gpuDetails} 
+                                    details={gpuDetails} 
                                     firstName={user.firstName} 
                                     to={user.emailAddresses[0].emailAddress}
                                     type="gpu"
-                                    className="w-full bg-primary hover:bg-primary/90 text-white py-5 rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                    className="w-full bg-primary hover:bg-primary/90 py-5 rounded-xl text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                                 />
                             ) : (
                                 <Link 

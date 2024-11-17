@@ -44,7 +44,7 @@ export default function RAMSelect({ data }) {
     };
 
     return (
-        <div className="flex flex-col min-h-[calc(100dvh-125px)] bg-gradient-to-br from-background via-blue-950/10 to-purple-950/10">
+        <div className="flex flex-col min-h-[calc(100dvh-125px)] bg-gradient-to-br from-background via-blue-950/10 to-purple-950/10 h-screen">
             <div className='flex-1 overflow-auto px-4 py-8'>
                 <div className="text-center mb-12 space-y-2">
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
