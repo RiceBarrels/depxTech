@@ -32,14 +32,17 @@ export async function POST(request) {
           `https://api.depxtech.com/read?filter_id=${item.itemId}`
         );
         const itemData = await response.json();
+        console.log("itemData: ", itemData);
         return {
           ...item,
           title: itemData[0].title,
           price: itemData[0].price,
-          image: itemData[0].imgs ? JSON.parse(itemData[0].imgs)[0] : null
+          image: JSON.parse(itemData[0].imgs)[0]
         };
       })
     );
+
+    console.log("itemsWithDetails: ", itemsWithDetails);
 
     const completeOrderDetails = {
       ...orderDetails,

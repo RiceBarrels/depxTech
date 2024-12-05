@@ -49,7 +49,7 @@ export default async function ProductDetails({ params }) {
                             const images = item.imgs ? JSON.parse(item.imgs) : [];
 
                             return (
-                                <div key={item.id} className="flex flex-col flex-1 min-h-72 max-h-[calc(100vh-77px)] overflow-y-scroll">
+                                <div key={item.id} className="flex flex-col flex-1 min-h-72 max-h-[calc(100vh-77px)] overflow-y-scroll pb-16">
                                     <div className="flex flex-col rounded-xl md:flex md:gap-6 md:p-6 bg-[var(--background-end-rgb)] m-1 w-[calc(100%-0.5rem)] md:w-[100%] md:flex-row">
                                         {/* Left side - Images */}
                                         <div className="md:flex-1">
@@ -101,7 +101,7 @@ export default async function ProductDetails({ params }) {
                                             <h3 className="font-semibold">Description:</h3>
                                             <p className="opacity-75 whitespace-pre-line">{item.des}</p>
 
-                                            <div className="flex md:hidden justify-center items-center w-[calc(100vw-0.5rem)] sticky bg-[#88888820] bottom-0 backdrop-blur-md py-2 px-2 l-0 -translate-x-4 border-t-[0.5px] border-[#88888850]">
+                                            <div className="flex md:hidden justify-center items-start w-[calc(100vw-0.5rem)] fixed bg-[#88888820] bottom-[0dvh] backdrop-blur-md py-2 px-2 l-0 -translate-x-4 border-t-[0.5px] border-[#88888850]">
                                                 <AddItem item={item} images={images} className="flex-1"/>
                                                 <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"} className="flex-1 ml-4">
                                                     <Button className="button py-2 w-full">Buy Now</Button>

@@ -119,7 +119,7 @@ export default function Orders() {
                 <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
               </div>
               <div className="w-20 h-20">
-                <Image src={`https://src.depxtech.com/${item.image}`} alt={item.title} width={80} height={80} />
+                <Image src={`https://src.depxtech.com/${item.image}`} alt={`${item.title}'s image`} width={80} height={80} />
               </div>
             </div>
           ))}

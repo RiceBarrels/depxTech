@@ -23,8 +23,7 @@ export default function ExpressCheckoutButton({ amount, cart }) {
       requestPayerName: true,
       requestPayerEmail: true,
       requestShipping: true,
-      requestPayerPhone: true,
-      disableWallets: ['link'], // Only disable link payments
+      requestPayerPhone: true
     });
 
     // Debug the payment request creation

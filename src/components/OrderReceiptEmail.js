@@ -67,7 +67,7 @@ export const OrderReceiptEmail = ({
             flex: 1
           }}>
             <img 
-              src={`https://src.depxtech.com/${item.img}`}
+              src={`https://src.depxtech.com/${item.image}`}
               alt={item.title}
               width="64"
               height="64"

@@ -203,7 +203,7 @@ export default function AddItem({ item, isIndividual = "0", className }) {
                             <span className="text-sm align-top">{("" + Math.round(quantity * item.price * 100) / 100).split('.')[1]}</span>
                         </div>
                     }
-                    <TransitionLinkBackNav href="cart">
+                    <TransitionLinkBackNav href="/cart">
                         <Button onClick={createItemToCart} className="w-full button mb-2">
                             <DrawerClose className="w-full">Add to Cart</DrawerClose>
                         </Button>

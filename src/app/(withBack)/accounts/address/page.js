@@ -723,7 +723,7 @@ export default function ManageAddress({className=""}) {
                             </div>
                             <div className='fixed bottom-0 w-[calc(100vw-1.5rem)] background-card '>
                                 <Separator />
-                                <Button type="submit" className="button my-2 w-full">Save</Button>
+                                {addressFields.first_name && addressFields.last_name && addressFields.phone_number && addressFields.line1 && addressFields.city && addressFields.state && addressFields.postal_code && addressFields.country ? <DrawerClose asChild><Button type="submit" className="button my-2 w-full">Save</Button></DrawerClose> : <Button type="submit" className="button my-2 w-full" disabled>Save</Button>}
                             </div>
                         </form>
                     </div>

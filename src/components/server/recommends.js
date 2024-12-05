@@ -151,7 +151,7 @@ export default function Recommends() {
                         return (
                             <TransitionLinkBackNav 
                                 key={item.id} 
-                                href={"./products/" + item.title} 
+                                href={"/products/" + item.title} 
                                 prefetch={true} 
                                 className="
                                     flex flex-col bg-[var(--background-end-rgb)] rounded-xl m-1 w-[calc(50%-0.5rem)] min-h-72 md:w-[25%] space-y-2 justify-center items-center
