@@ -88,16 +88,21 @@ const CheckoutPage = ({ amount,cart }) => {
               }
 
               setAddresses([]);
+              setSelectedAddress(null);
           } else if (!error && data) {
               setAddresses(data.address || []);
+              let defaultFound = false;
               for(let i=0; i<data.address.length; i++) {
-                if(data.address[i].default) {
-                  data.address[i].index = i;
-                  setSelectedAddress(data.address[i]);
-                  console.log('Selected address');
-                  console.log(data.address[i]);
-                  break;
-                }
+                  if(data.address[i].default) {
+                      data.address[i].index = i;
+                      setSelectedAddress(data.address[i]);
+                      defaultFound = true;
+                      break;
+                  }
+              }
+              if (!defaultFound && data.address.length > 0) {
+                  data.address[0].index = 0;
+                  setSelectedAddress(data.address[0]);
               }
           }
 
@@ -184,7 +189,7 @@ const CheckoutPage = ({ amount,cart }) => {
     setLoading(false);
   };
 
-  if (!clientSecret || !stripe || !elements) {
+  if (!stripe || !elements || loading) {
     return (
       <div className="flex items-center justify-center">
         <div

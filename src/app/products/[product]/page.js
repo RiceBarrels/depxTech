@@ -93,19 +93,19 @@ export default async function ProductDetails({ params }) {
 
                                             <div className="hidden md:flex justify-center items-center w-full bottom-0 backdrop-blur-md py-2 px-2 l-0 translate-x-0 border-b-[0.5px] border-[#88888850]">
                                                 <AddItem item={item} images={images} className="flex-1"/>
-                                                <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"} className="flex-1 ml-4">
+                                                {/* <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"} className="flex-1 ml-4">
                                                     <Button className="button py-2 w-full">Buy Now</Button>
-                                                </TransitionLinkBackNav>
+                                                </TransitionLinkBackNav> */}
                                             </div>
 
                                             <h3 className="font-semibold">Description:</h3>
                                             <p className="opacity-75 whitespace-pre-line">{item.des}</p>
 
-                                            <div className="flex md:hidden justify-center items-start w-[calc(100vw-0.5rem)] fixed bg-[#88888820] bottom-[0dvh] backdrop-blur-md py-2 px-2 l-0 -translate-x-4 border-t-[0.5px] border-[#88888850]">
+                                            <div className="flex md:hidden justify-center items-start w-[calc(100vw-0.5rem)] fixed bg-[#88888820] bottom-[0dvh] backdrop-blur-md py-2 px-2 l-0 -translate-x-4 border-t-[0.5px] border-[#88888850] z-50">
                                                 <AddItem item={item} images={images} className="flex-1"/>
-                                                <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"} className="flex-1 ml-4">
+                                                {/* <TransitionLinkBackNav href={"/checkout/" + item.id + "/checkout"} className="flex-1 ml-4">
                                                     <Button className="button py-2 w-full">Buy Now</Button>
-                                                </TransitionLinkBackNav>
+                                                </TransitionLinkBackNav> */}
                                             </div>
                                         </div>
                                     </div>

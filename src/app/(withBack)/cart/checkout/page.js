@@ -8,6 +8,7 @@ import { useSession, useUser } from '@clerk/nextjs'
 import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from 'react'
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
     throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
@@ -71,7 +72,7 @@ export default function Home() {
             let total = 0;
             let cartItems = [];
             let des = "";
-            setCartElement(<div>Loading...</div>);
+            setCartElement(<Skeleton className="w-full h-[100]"/>);
             for (let i = 0; i < cart.length; i++) {
                 const response = await fetch(`https://api.depxtech.com/read?filter_id=${cart[i].itemId}`);
                 const item = await response.json();
@@ -126,7 +127,7 @@ export default function Home() {
               <h3 className="mt-12 flex text-2xl">
                 Total:
                 <div className="flex-1 text-right">
-                  {totalAmount == 0 && "Calculating payment..."}
+                  {totalAmount == 0 && <div className="flex items-center justify-end"><Skeleton className="w-24 h-6"/></div>}
                   {totalAmount !== 0 && (
                     <div className="text-2xl text-right font-extrabold">
                         <span className="text-sm">$ </span>

@@ -28,7 +28,7 @@ export default function ManageAddress({className=""}) {
         last_name: '',
         phone_number: '',
         city: '',
-        country: 'United States',
+        country: 'US',
         line1: '',
         line2: '',
         postal_code: '',
@@ -172,7 +172,7 @@ export default function ManageAddress({className=""}) {
             last_name: '',
             phone_number: '',
             city: '',
-            country: 'United States',
+            country: 'US',
             line1: '',
             line2: '',
             postal_code: '',
@@ -254,6 +254,14 @@ export default function ManageAddress({className=""}) {
         console.log(updatedAddresses)
     }
 
+    // Add check for user authentication at the start of the component
+    if (!user) return (
+        <div className='flex flex-col justify-center items-center h-full'>
+            <MdOutlineWrongLocation size="50vmin" color='#888888' />
+            <p className='my-3 mt-8 font-extrabold'>Please sign in to manage your addresses.</p>
+        </div>
+    );
+
     if (!loading && addresses.length === 0) return (
         <div className='flex flex-col justify-center items-center h-full'>
             <MdOutlineWrongLocation size="50vmin" color='#888888' />
@@ -266,7 +274,7 @@ export default function ManageAddress({className=""}) {
                             last_name: '',
                             phone_number: '',
                             city: '',
-                            country: 'United States',
+                            country: 'US',
                             line1: '',
                             line2: '',
                             postal_code: '',
@@ -588,7 +596,7 @@ export default function ManageAddress({className=""}) {
                             last_name: '',
                             phone_number: '',
                             city: '',
-                            country: 'United States',
+                            country: 'US',
                             line1: '',
                             line2: '',
                             postal_code: '',

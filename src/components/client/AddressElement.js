@@ -17,8 +17,9 @@ import { GrClose } from "react-icons/gr";
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { useRouter } from 'next/navigation';
 
-export default function AddAddress({className=""}) {
+export default function AddAddress({className="", onAddressUpdate}) {
     const [loading, setLoading] = useState(true);
     const [addresses, setAddresses] = useState([]);
     const [addressFields, setAddressFields] = useState({
@@ -26,7 +27,7 @@ export default function AddAddress({className=""}) {
         last_name: '',
         phone_number: '',
         city: '',
-        country: 'United States',
+        country: 'US',
         line1: '',
         line2: '',
         postal_code: '',
@@ -36,6 +37,7 @@ export default function AddAddress({className=""}) {
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useUser();
     const { session } = useSession();
+    const router = useRouter();
 
     function createClerkSupabaseClient() {
         return createClient(
@@ -108,7 +110,7 @@ export default function AddAddress({className=""}) {
             return;
         }
 
-        const updatedAddresses = [...addresses, addressFields]; // Store new address as an object
+        const updatedAddresses = [...addresses, addressFields];
 
         await client
             .from('userdata')
@@ -121,15 +123,27 @@ export default function AddAddress({className=""}) {
             last_name: '',
             phone_number: '',
             city: '',
-            country: 'United States',
+            country: 'US',
             line1: '',
             line2: '',
             postal_code: '',
             state: ''
-        }); // Clear the form after submission
-        console.log("Successfully updated");
-        console.log(updatedAddresses)
+        });
+        
         setIsOpen(false);
+        
+        // Force a refresh of the server components
+        router.refresh();
+        
+        // Call the callback if provided
+        if (onAddressUpdate) {
+            onAddressUpdate(updatedAddresses);
+        }
+
+        // Reload the page if this is the first address
+        if (updatedAddresses.length === 1) {
+            window.location.reload();
+        }
     }
 
     // Handle form input changes
@@ -160,9 +174,13 @@ export default function AddAddress({className=""}) {
          .eq('user_id', user.id);
         
         // Update the local state
-        setAddresses(updatedAddresses)
-        console.log(updatedAddresses)
-        window.location.reload()
+        setAddresses(updatedAddresses);
+        
+        // Option 1: Use Next.js router to refresh (if you really need a refresh)
+        router.refresh();
+        
+        // Option 2: Or just rely on the state update (recommended)
+        // The state update above should be sufficient in most cases
     }
 
     return (
@@ -174,7 +192,7 @@ export default function AddAddress({className=""}) {
                         last_name: '',
                         phone_number: '',
                         city: '',
-                        country: 'United States',
+                        country: 'US',
                         line1: '',
                         line2: '',
                         postal_code: '',
