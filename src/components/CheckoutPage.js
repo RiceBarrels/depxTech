@@ -4,7 +4,9 @@ import React, { useEffect, useState } from "react";
 import {
   useStripe,
   useElements,
-  PaymentElement
+  PaymentElement,
+  Elements,
+  ElementsConsumer
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import { useSession, useUser } from '@clerk/nextjs';
@@ -21,13 +23,10 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { GrClose } from "react-icons/gr";
-import ManageAddress from "@/app/(withBack)/accounts/address/page";
 import { Button } from "./ui/button";
 import { TransitionLinkBackNav } from "./client/pageTransition";
 
-const CheckoutPage = ({ amount,cart }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+const CheckoutForm = ({ stripe, elements, amount, cart }) => {
   const [errorMessage, setErrorMessage] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,6 +35,7 @@ const CheckoutPage = ({ amount,cart }) => {
   const { isLoaded, isSignedIn, user } = useUser();
   const { session } = useSession();
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [isElementReady, setIsElementReady] = useState(false);
 
   function createClerkSupabaseClient() {
       return createClient(
@@ -158,38 +158,55 @@ const CheckoutPage = ({ amount,cart }) => {
     event.preventDefault();
     setLoading(true);
 
-    if (!stripe || !elements || !isLoaded || !isSignedIn || !selectedAddress) {
-      return;
-    }
+    try {
+      if (!stripe || !elements || !isLoaded || !isSignedIn || !selectedAddress || !isElementReady || !clientSecret) {
+        throw new Error("Required fields are missing");
+      }
 
-    const { error: submitError } = await elements.submit();
+      // Submit the form first
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        throw submitError;
+      }
 
-    if (submitError) {
-      setErrorMessage(submitError.message);
-      setLoading(false);
-      return;
-    }
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret: clientSecret,
+        confirmParams: {
+          return_url: `${window.location.origin}/payment-success?amount=${amount}`,
+          receipt_email: email
+        },
+      });
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `${window.location.origin}/payment-success?amount=${amount}`,
-        receipt_email: email
-      },
-    });
-
-    if (error) {
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
       setErrorMessage(error.message);
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+      console.error('Payment error:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
-  if (!stripe || !elements || loading) {
+  const renderPaymentElement = () => {
+    if (!stripe || !elements || !clientSecret) return null;
+
+    return (
+      <PaymentElement 
+        onReady={() => {
+          console.log('PaymentElement is ready');
+          setIsElementReady(true);
+        }}
+        onDestroy={() => {
+          console.log('PaymentElement was destroyed');
+          setIsElementReady(false);
+        }}
+      />
+    );
+  };
+
+  if (!clientSecret || !stripe || !elements) {
     return (
       <div className="flex items-center justify-center">
         <div
@@ -205,7 +222,10 @@ const CheckoutPage = ({ amount,cart }) => {
   }
 
   const paymentElementOptions = {
-
+    layout: {
+      type: 'tabs',
+      defaultCollapsed: false,
+    }
   };
 
   function setAddress(index){
@@ -268,17 +288,44 @@ const CheckoutPage = ({ amount,cart }) => {
         placeholder="Enter email address"
         className="p-3 rounded-sm border-[1px solid] outline-2 text-[#000000] w-full mb-4"
       />
-      {clientSecret && <PaymentElement options={paymentElementOptions} />}
 
-      {errorMessage && <div>{errorMessage}</div>}
+      <PaymentElement 
+        id="payment-element"
+        options={paymentElementOptions} 
+        onReady={() => setIsElementReady(true)}
+        onDestroy={() => setIsElementReady(false)}
+      />
+
+      {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
 
       <Button
-        disabled={!stripe || loading || addresses.length === 0}
-        className="w-full cursor-not-allowed mt-10"
+        disabled={!stripe || !elements || !clientSecret || loading || addresses.length === 0 || !isElementReady}
+        className="w-full mt-10 relative"
       >
-        {!loading && addresses.length != 0 && `Pay $${amount}` || !loading && addresses.length === 0 && "Please Enter a Shipping Address" || loading && "Processing..."}
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-inherit rounded-md">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-solid border-current border-e-transparent" />
+          </div>
+        )}
+        <span className={loading ? 'opacity-0' : ''}>
+          {addresses.length !== 0 ? `Pay $${amount}` : "Please Enter a Shipping Address"}
+        </span>
       </Button>
     </form>
+  );
+};
+
+const CheckoutPage = (props) => {
+  return (
+    <ElementsConsumer>
+      {({stripe, elements}) => (
+        <CheckoutForm 
+          stripe={stripe} 
+          elements={elements} 
+          {...props}
+        />
+      )}
+    </ElementsConsumer>
   );
 };
 
