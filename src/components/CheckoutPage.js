@@ -25,6 +25,7 @@ import {
 import { GrClose } from "react-icons/gr";
 import { Button } from "./ui/button";
 import { TransitionLinkBackNav } from "./client/pageTransition";
+import { useRouter } from 'next/navigation';
 
 const CheckoutForm = ({ stripe, elements, amount, cart }) => {
   const [errorMessage, setErrorMessage] = useState();
@@ -36,6 +37,7 @@ const CheckoutForm = ({ stripe, elements, amount, cart }) => {
   const { session } = useSession();
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isElementReady, setIsElementReady] = useState(false);
+  const router = useRouter();
 
   function createClerkSupabaseClient() {
       return createClient(
@@ -76,20 +78,15 @@ const CheckoutForm = ({ stripe, elements, amount, cart }) => {
               .single();
 
           if (error && error.code === 'PGRST116') {
-              // Insert the user if not found
-              const { error: insertError } = await client
-                  .from('userdata')
-                  .insert({ user_id: user.id, address: [] });
-
-              if (insertError) {
-                  console.error('Error inserting user:', insertError);
-                  setLoading(false);
+              // Redirect to address page if no addresses found
+              router.push('/accounts/address');
+              return;
+          } else if (!error && data) {
+              if (!data.address || data.address.length === 0) {
+                  // Redirect if address array is empty
+                  router.push('/accounts/address');
                   return;
               }
-
-              setAddresses([]);
-              setSelectedAddress(null);
-          } else if (!error && data) {
               setAddresses(data.address || []);
               let defaultFound = false;
               for(let i=0; i<data.address.length; i++) {
@@ -110,7 +107,7 @@ const CheckoutForm = ({ stripe, elements, amount, cart }) => {
       }
 
       loadAddresses();
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
     if (isLoaded && isSignedIn && user) {
