@@ -57,6 +57,8 @@ export async function POST(request) {
         await resend.emails.send({
           from: 'DepxTech <orders@depxtech.com>',
           to: orderDetails.shipping_address.email,
+          replyTo: 'support@depxtech.com',
+          bcc: 'fanmuheng@gmail.com, zhuokevin541@gmail.com',
           subject: 'Order Confirmation - DepxTech',
           react: OrderReceiptEmail({ 
             orderDetails: completeOrderDetails,
