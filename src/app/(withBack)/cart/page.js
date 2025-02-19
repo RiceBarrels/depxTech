@@ -276,7 +276,7 @@ export default function Home() {
             <main className="max-w-6xl mx-auto pt-0 p-4 pr-0 flex flex-col items-center justify-center h-full">
                 <div className="text-center">
                     <h3 className="text-xl mb-4">Please Sign In to View Your Cart</h3>
-                    <TransitionLinkBackNav href="/sign-in">
+                    <TransitionLinkBackNav href="/signIn">
                         <Button className="flex-1 text-md" size="lg">Sign In</Button>
                     </TransitionLinkBackNav>
                 </div>

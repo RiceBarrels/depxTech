@@ -73,7 +73,7 @@ export default function Coupons() {
     return (
       <div>
         <h3>You are not logged in</h3>
-        <Link href="/sign-in?redirect_url=/accounts/coupons"><Button>Sign in</Button></Link>
+        <Link href="/signIn?redirect_url=/accounts/coupons"><Button>Sign in</Button></Link>
       </div>
     );
   }

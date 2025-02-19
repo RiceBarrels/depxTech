@@ -227,7 +227,7 @@ const RamTradeInCard = ({ ramDetails, user, pricing }) => {
                                 />
                             ) : (
                                 <Link 
-                                    href={`/sign-in?redirect_url=${encodeURIComponent(
+                                    href={`/signIn?redirect_url=${encodeURIComponent(
                                         `/trade/ram/${tradeInDetails.ddr}/${tradeInDetails.speed}/${tradeInDetails.brand}/${tradeInDetails.condition}/${tradeInDetails.placeHolder}`
                                     )}`}
                                 >

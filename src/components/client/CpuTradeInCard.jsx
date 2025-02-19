@@ -204,7 +204,7 @@ const CpuTradeInCard = ({ cpuDetails, user, pricing }) => {
                                 />
                             ) : (
                                 <Link 
-                                    href={`/sign-in?redirect_url=${encodeURIComponent(
+                                    href={`/signIn?redirect_url=${encodeURIComponent(
                                         `/trade/cpu/${cpuDetails.brand}/${cpuDetails.series}/${cpuDetails.modelId}/${cpuDetails.condition}/${cpuDetails.placeHolder}`
                                     )}`}
                                 >

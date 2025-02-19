@@ -115,8 +115,8 @@ export default function Accounts() {
     <SignOutButton class="w-max button flex-1 mx-4 py-2" redirectUrl="./accounts"/>
   ) : (
     <>
-      <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./sign-in">Sign In</TransitionLinkBackNav>
-      <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./sign-up">Sign Up</TransitionLinkBackNav>
+      <TransitionLinkBackNav class="w-max button flex-1 mx-4 py-2" href="./signIn">Sign In</TransitionLinkBackNav>
+      <TransitionLinkBackNav class="w-max button-secondary flex-1 mr-4 py-2" href="./signUp">Sign Up</TransitionLinkBackNav>
     </>
   );
 
@@ -281,7 +281,7 @@ export default function Accounts() {
         }
         </motion.div>
       ) : (
-          <TransitionLinkBackNav href="sign-in?redirect_url=/accounts" className="w-full py-[12px] px-1 card-feedback rounded-xl">
+          <TransitionLinkBackNav href="signIn?redirect_url=/accounts" className="w-full py-[12px] px-1 card-feedback rounded-xl">
 
 <motion.div 
           variants={profileCardVariants}

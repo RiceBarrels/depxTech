@@ -50,7 +50,7 @@ export default async function Accept({ params, searchParams }) {
     const email = searchParams.email;
     
     if (!user) {
-        redirect('/sign-in?redirect_url=' + encodeURIComponent('/trade/ram/' + ddr + '/' + speed + '/' + size + '/' + brand + '/' + condition + '/' + placeHolder + '/accept?email=' + email));
+        redirect('/signIn?redirect_url=' + encodeURIComponent('/trade/ram/' + ddr + '/' + speed + '/' + size + '/' + brand + '/' + condition + '/' + placeHolder + '/accept?email=' + email));
     }
     
     const serializedUser = {
@@ -68,7 +68,7 @@ export default async function Accept({ params, searchParams }) {
                     The email address used for this trade-in request ({email}) doesn't match your signed-in account.
                 </p>
                 <Link 
-                    href={"/sign-in?redirect_url=" + encodeURIComponent('/trade/ram/' + ddr + '/' + speed + '/' + size + '/' + brand + '/' + condition + '/' + placeHolder + '/accept?email=' + email)}
+                    href={"/signIn?redirect_url=" + encodeURIComponent('/trade/ram/' + ddr + '/' + speed + '/' + size + '/' + brand + '/' + condition + '/' + placeHolder + '/accept?email=' + email)}
                     className="text-blue-500 hover:underline"
                 >
                     Sign in with correct email

@@ -17,8 +17,8 @@ Allow: /faqs
 Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
-Disallow: /sign-in
-Disallow: /sign-up
+Disallow: /signIn
+Disallow: /signUp
 Disallow: /trade/gpu/*/accept
 Disallow: /trade/cpu/*/accept 
 Disallow: /trade/ram/*/accept

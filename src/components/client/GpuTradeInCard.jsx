@@ -204,7 +204,7 @@ const GpuTradeInCard = ({ gpuDetails, user, pricing }) => {
                                 />
                             ) : (
                                 <Link 
-                                    href={`/sign-in?redirect_url=${encodeURIComponent(
+                                    href={`/signIn?redirect_url=${encodeURIComponent(
                                         `/trade/gpu/${gpuDetails.gpu}/${gpuDetails.series}/${gpuDetails.model}/${gpuDetails.brand}/${gpuDetails.condition}/${gpuDetails.placeHolder}`
                                     )}`}
                                 >
