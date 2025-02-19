@@ -314,7 +314,7 @@ export default function Home() {
                     <div className="flex flex-col gap-2">
                         {totalAmount != 0 && (
                             <>
-                                <Elements 
+                                {/* <Elements 
                                     stripe={stripePromise}
                                     options={{
                                         mode: 'payment',
@@ -331,7 +331,7 @@ export default function Home() {
                                 >
                                     <ExpressCheckoutButton amount={totalAmount} cart={cart} />
                                 </Elements>
-                                <div className="text-center text-sm text-gray-500">or</div>
+                                <div className="text-center text-sm text-gray-500">or</div> */}
                                 <TransitionLinkBackNav className="flex" href="/cart/checkout">
                                     <Button className="flex-1 text-md" size="lg">Checkout with Card</Button>
                                 </TransitionLinkBackNav>
